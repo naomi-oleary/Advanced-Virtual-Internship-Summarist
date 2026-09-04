@@ -3,8 +3,10 @@ import { RiLeafLine } from 'react-icons/ri';
 import { BiCrown } from 'react-icons/bi';
 import { BsStarFill, BsStarHalf } from 'react-icons/bs';
 import { AiFillFileText, AiFillBulb, AiFillAudio } from 'react-icons/ai';
+import LoginButton from "./client-side/LoginButton.jsx";
 
 export default function HomePage() {
+
     return (
         <div>
             <nav className="nav">
@@ -36,7 +38,7 @@ export default function HomePage() {
                         <br className="remove--tablet" />
                         and even people who don’t like to read.
                         </div>
-                        <button className="btn home__cta--btn">Login</button>
+                        <LoginButton />
                     </div>
                     <figure className="landing__image--mask">
                         <img src="/landing.png" alt="landing" />

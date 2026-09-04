@@ -4,7 +4,6 @@ import { BiCrown } from 'react-icons/bi';
 import { BsStarFill, BsStarHalf } from 'react-icons/bs';
 import { AiFillFileText, AiFillBulb, AiFillAudio } from 'react-icons/ai';
 import HomePage from './components/HomePage';
-import Image from 'next/image';
 
 
 
