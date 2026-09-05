@@ -15,7 +15,9 @@ export default function HomePage() {
                     <img className="nav__img" src="/logo.png" alt="logo" />
                 </figure>
                 <ul className="nav__list--wrapper">
-                    <li className="nav__list nav__list--login">Login</li>
+                    <li className="nav__list nav__list--login">
+                        <LoginButton />
+                    </li>
                     <li className="nav__list nav__list--mobile">About</li>
                     <li className="nav__list nav__list--mobile">Contact</li>
                     <li className="nav__list nav__list--mobile">Help</li>
@@ -38,7 +40,9 @@ export default function HomePage() {
                         <br className="remove--tablet" />
                         and even people who don’t like to read.
                         </div>
-                        <LoginButton />
+                        <div className="btn home__cta--btn">
+                            <LoginButton />
+                        </div>
                     </div>
                     <figure className="landing__image--mask">
                         <img src="/landing.png" alt="landing" />
