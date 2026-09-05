@@ -1,6 +1,5 @@
 "use client"
 
-import React from 'react';
 import { useState } from 'react';
 import { auth } from '../../firebase/init.js';
 import { 
@@ -42,16 +41,19 @@ export default function LoginButton() {
             >
                 Login
             </button>
-            <AuthenticationModal 
-                isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
-            >
-                <p>Modal!</p>
-                <button
-                    onClick={() => setIsModalOpen(false)}
-                    className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition">
-                    close button
-                </button>
-            </AuthenticationModal>
+            <div>
+                <AuthenticationModal 
+                    isOpen={isModalOpen} 
+                    onClose={() => setIsModalOpen(false)}
+                >
+                    <p>Modal!</p>
+                    <button
+                        onClick={() => setIsModalOpen(false)}
+                    >
+                        close button
+                    </button>
+                </AuthenticationModal>
+            </div>
         </div>
     )
 }
