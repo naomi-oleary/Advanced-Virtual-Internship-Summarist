@@ -50,7 +50,7 @@ export default function LoginButton() {
                     <button
                         onClick={() => setIsModalOpen(false)}
                     >
-                        close button
+                        x
                     </button>
                 </AuthenticationModal>
             </div>

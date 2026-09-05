@@ -27,13 +27,8 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
             ref={dialogRef}
             onClose={onClose}
             onClick={handleBackdropClick}
-            className="rounded-sm backdrop:bg-black/75 shadow-xl outline-none border-none">
-                <div className="p-6 bg-white max-w-md w-full">
-                    <button
-                        onClick={onClose}
-                        className="absolute top-4 right-4 text-black hover:text-gray-800 text-lg font-bold">
-                        x
-                    </button>
+            className="fixed inset-0 m-auto w-full max-w-md p-0 bg-transparent rounded-sm backdrop:bg-black/75 shadow-xl outline-none border-none">
+                <div className="relative p-6 bg-white w-full text-left">
                     {children}
                 </div>
         </dialog>
