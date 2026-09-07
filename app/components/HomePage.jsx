@@ -40,8 +40,9 @@ export default function HomePage() {
                         <br className="remove--tablet" />
                         and even people who don’t like to read.
                         </div>
-                        <div className="btn home__cta--btn">
-                            <LoginButton />
+                        <div className="btn max-w-2xs">
+                            <LoginButton 
+                            className="flex py-10 px-70" />
                         </div>
                     </div>
                     <figure className="landing__image--mask">
