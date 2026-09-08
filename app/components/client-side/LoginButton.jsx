@@ -8,7 +8,7 @@ import {
     } from "firebase/auth";
 import AuthenticationModal from "./AuthenticationModal.jsx/"
 
-export default function LoginButton() {
+export default function LoginButton({ className = "" }) {
 
     function login() {
         signInWithEmailAndPassword(auth, email, password)
@@ -38,6 +38,7 @@ export default function LoginButton() {
         <div>
             <button 
                 onClick={() => setIsModalOpen(true)}
+                className={className}
             >
                 Login
             </button>

@@ -4,6 +4,9 @@ import { BiCrown } from 'react-icons/bi';
 import { BsStarFill, BsStarHalf } from 'react-icons/bs';
 import { AiFillFileText, AiFillBulb, AiFillAudio } from 'react-icons/ai';
 import LoginButton from "./client-side/LoginButton.jsx";
+import Image from 'next/image';
+import Logo from '../Images/logo.png';
+import Landing from '../Images/landing.png';
 
 export default function HomePage() {
 
@@ -12,7 +15,7 @@ export default function HomePage() {
             <nav className="nav">
                 <div className="nav__wrapper">
                 <figure className="nav__img--mask">
-                    <img className="nav__img" src="/logo.png" alt="logo" />
+                    <Image className="nav__img" src={Logo} alt="logo" />
                 </figure>
                 <ul className="nav__list--wrapper">
                     <li className="nav__list nav__list--login">
@@ -41,12 +44,11 @@ export default function HomePage() {
                         and even people who don’t like to read.
                         </div>
                         <div className="btn max-w-2xs">
-                            <LoginButton 
-                            className="flex py-10 px-70" />
+                            <LoginButton className="py-2 px-32" />
                         </div>
                     </div>
                     <figure className="landing__image--mask">
-                        <img src="/landing.png" alt="landing" />
+                        <Image src={Landing} alt="landing" />
                     </figure>
                     </div>
                 </div>
@@ -220,7 +222,7 @@ export default function HomePage() {
                     </div>
                     </div>
                     <div className="reviews__btn--wrapper">
-                    <button className="btn home__cta--btn">Login</button>
+                        <LoginButton className="btn">Login</LoginButton>
                     </div>
                 </div>
                 </div>
