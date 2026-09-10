@@ -2,7 +2,14 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import GoogleLogo from '../../Images/google.png'
+import GoogleLogo from '../../Images/google.png';
+import { auth } from '../../firebase/init.js';
+import { 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    signInWithPopup, 
+    GoogleAuthProvider 
+} from "firebase/auth";
 
 export default function AuthenticationModal({ isOpen, onClose, children }) {
     const dialogRef = useRef(null);
@@ -24,6 +31,43 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
         }
     }
 
+    const provider = new GoogleAuthProvider();
+
+    const handleGoogleLogin = async () => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+        } catch (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            const email = error.customData.email;
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            console.error("authentication failed")
+        }
+    };
+
+    function login() {
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        });
+    }
+
+    function register() {
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        });
+    }
+
     const [emailInputValue, setEmailInputValue] = useState('');
 
     const [passwordInputValue, setPasswordInputValue] = useState('');
@@ -36,15 +80,15 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
         setPasswordInputValue(e.target.value);
     }
 
-    const handleEmailSubmit = (e) => {
-        e.preventDefault();
-        console.log('Email and pw:', emailInputValue);
-    }
+    // const handleEmailSubmit = (e) => {
+    //     e.preventDefault();
+    //     console.log('Email and pw:', emailInputValue);
+    // }
 
-    const handlePasswordSubmit = (e) => {
-        e.preventDefault();
-        console.log('Email and pw:', passwordInputValue);
-    }
+    // const handlePasswordSubmit = (e) => {
+    //     e.preventDefault();
+    //     console.log('Email and pw:', passwordInputValue);
+    // }
     
     return (
         <dialog
@@ -60,10 +104,13 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
                         </div>
                         <span>or</span>
                         <div className="bg-blue-400 border rounded text-white">
-                            <button className="p-1 flex h-10 w-full items-center">
+                            <button 
+                                className="p-1 flex h-10 w-full items-center" 
+                                onClick={handleGoogleLogin}
+                            >
                                 <Image 
                                     src={GoogleLogo} 
-                                    alt="Google Logo" 
+                                    alt="Google Logo"
                                     className="bg-white rounded items-start h-full w-auto object-contain" 
                                 />
                                 <span className="mx-auto">
@@ -84,13 +131,13 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
                            className="border-2 p-1 border-gray-300 focus:border-green-400 rounded w-full text-gray-500">
                         </input>
                         <input
-                           type="email"
+                           type="password"
                            value={passwordInputValue}
                            onChange={handlePasswordChange}
                            placeholder="Password"
                            className="border-2 p-1 border-gray-300 focus:border-green-400 rounded w-full text-gray-500">
                         </input>
-                        <button className="bg-[#2bd97c] hover:bg-[#20ba68] rounded p-2 h-full w-full">Login</button>
+                        <button onClick={register(emailInputValue, passwordInputValue)} className="bg-[#2bd97c] hover:bg-[#20ba68] rounded p-2 h-full w-full">Login</button>
                     </form>
                 </div>
         </dialog>
