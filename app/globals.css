@@ -38,11 +38,13 @@ ul {
   list-style: none;
 }
 
-button {
-  cursor: pointer;
-  outline: none;
-  border: none;
-  background-color: transparent;
+@layer base {
+  button {
+    cursor: pointer;
+    outline: none;
+    border: none;
+    background-color: transparent;
+  }
 }
 
 button:active {

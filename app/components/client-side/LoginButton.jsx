@@ -47,14 +47,14 @@ export default function LoginButton({ className = "" }) {
                     isOpen={isModalOpen} 
                     onClose={() => setIsModalOpen(false)}
                 >
-                    <div className="flex flex-col">
+                    <div className="flex flex-col relative">
                         <button
                             onClick={() => setIsModalOpen(false)}
-                            className="flex justify-end"
+                            className="absolute top-0 right-0"
                             >
-                            x
+                            ✕
                         </button>
-                        <h1 className="font-bold text-lg text-blue-950 py-4">Log in to Summarist</h1>
+                        <h1 className="font-bold text-xl text-blue-950 my-6">Log in to Summarist</h1>
                     </div>
 
                 </AuthenticationModal>
