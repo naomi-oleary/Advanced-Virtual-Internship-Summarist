@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import GoogleLogo from '../../Images/google.png';
 import { auth } from '../../firebase/init.js';
@@ -8,11 +9,13 @@ import {
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
     signInWithPopup, 
-    GoogleAuthProvider 
+    GoogleAuthProvider,
+    onAuthStateChanged 
 } from "firebase/auth";
 
 export default function AuthenticationModal({ isOpen, onClose, children }) {
     const dialogRef = useRef(null);
+    const router = useRouter();
 
     useEffect(() => {
         const dialog = dialogRef.current;
@@ -53,18 +56,18 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
         })
         .catch((error) => {
             const errorCode = error.code;
-            const errorMessage = error.message;
+            const errorMessage = "Invalid Email";
         });
     }
 
-    function register() {
+    function register(email, password) {
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
         })
         .catch((error) => {
             const errorCode = error.code;
-            const errorMessage = error.message;
+            const errorMessage = "Invalid Email";
         });
     }
 
@@ -79,6 +82,16 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
     const handlePasswordChange = (e) => {
         setPasswordInputValue(e.target.value);
     }
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                router.push('/for-you');
+            }
+        });
+
+        return () => unsubscribe();
+    }, [auth, router]);
 
     // const handleEmailSubmit = (e) => {
     //     e.preventDefault();
