@@ -1,7 +1,10 @@
+
+import NavBar from "../components/client-side/NavBar";
+
 export default function ForYouPage() {
     return (
         <div>
-            This is the for-you page
+           <NavBar />
         </div>
     )
 }

@@ -28,6 +28,15 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
         }
     }, [isOpen]);
 
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                router.push('/for-you');
+            }
+        });
+        return () => unsubscribe();
+    }, [auth, router]);
+
     const handleBackdropClick = (e) => {
         if (e.target ===dialogRef.current) {
             onClose();
@@ -83,15 +92,6 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
         setPasswordInputValue(e.target.value);
     }
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                router.push('/for-you');
-            }
-        });
-
-        return () => unsubscribe();
-    }, [auth, router]);
 
     // const handleEmailSubmit = (e) => {
     //     e.preventDefault();
