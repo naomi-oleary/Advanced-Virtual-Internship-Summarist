@@ -1,41 +1,45 @@
 interface Book {
     id: string;
-    author: String;
-    title: String;
-    subTitle: String;
-    imageLink: String;
-    audioLink: String;
-    totalRating: Number;
-    averageRating: Number;
-    keyIdeas: Number;
-    type: String;
-    status: String;
-    subscriptionRequired: Boolean;
+    author: string;
+    title: string;
+    subTitle: string;
+    imageLink: string;
+    audioLink: string;
+    totalRating: number;
+    averageRating: number;
+    keyIdeas: number;
+    type: string;
+    status: string;
+    subscriptionRequired: boolean;
     summary: string;
     tags: string[];
-    bookDescription: String;
-    authorDescription: String;
+    bookDescription: string;
+    authorDescription: string;
+    className?: string;
 }
 
-export default function BookCard() {
-    async function getBooks() {
+async function getSelectedBook(): Promise<Book[]> {
         const res = await fetch('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=selected');
         if (!res.ok) {
-            throw new Error('failed to fetch');
+            throw new Error('Failed to fetch Book');
         }
 
-        const products: Book[] = await res.json();
+        return res.json() as Promise<Book[]>
     }
 
-    getBooks();
+export default async function BookCard ({ className = "not-visited:" }) {
+    const books = await getSelectedBook();
     
     return (
-        <div>
-            {/* {books.map((book) => 
-                <div key={book.id}>
-                    {book.title}
-                </div>
-            )} */}
+        <div className={className}>
+            {books.map((book) => (
+                <li key={book.id} className="list-none">
+                    <img src={book.imageLink} />
+                    <div>
+                        
+                    </div>
+                </li>
+            ))}
         </div>
     )
 }
