@@ -23,23 +23,40 @@ async function getSelectedBook(): Promise<Book[]> {
         if (!res.ok) {
             throw new Error('Failed to fetch Book');
         }
+        return res.json() as Promise<Book[]>
+    }
+
+async function getRecommendedBooks(): Promise<Book[]> {
+        const res = await fetch('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended');
+        if (!res.ok) {
+            throw new Error('Failed to fetch Book');
+        }
 
         return res.json() as Promise<Book[]>
     }
 
-export default async function BookCard ({ className = "not-visited:" }) {
-    const books = await getSelectedBook();
+async function getSuggestedBooks(): Promise<Book[]> {
+        const res = await  fetch('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=suggested');
+        console.log(res)
+        if (!res.ok) {
+            throw new Error('Failed to fetch Book');
+        }
+
+        return res.json() as Promise<Book[]>
+    }
+
+async function getData() {
+    const selectedBook = getSelectedBook();
+    const recommendedBooks = getRecommendedBooks();
+    const suggestedBooks = getSuggestedBooks();
+
+    return { selectedBook, recommendedBooks, suggestedBooks };
+}
+
+export default async function BookCard () {
     
-    return (
-        <div className={className}>
-            {books.map((book) => (
-                <li key={book.id} className="list-none">
-                    <img src={book.imageLink} />
-                    <div>
-                        
-                    </div>
-                </li>
-            ))}
-        </div>
-    )
+
+    const { selectedBook, recommendedBooks, suggestedBooks } = await getData();
+
+    return {selectedBook, recommendedBooks, suggestedBooks}
 }
