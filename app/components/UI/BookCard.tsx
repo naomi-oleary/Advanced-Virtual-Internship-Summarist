@@ -37,7 +37,6 @@ async function getRecommendedBooks(): Promise<Book[]> {
 
 async function getSuggestedBooks(): Promise<Book[]> {
         const res = await  fetch('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=suggested');
-        console.log(res)
         if (!res.ok) {
             throw new Error('Failed to fetch Book');
         }
@@ -46,15 +45,14 @@ async function getSuggestedBooks(): Promise<Book[]> {
     }
 
 async function getData() {
-    const selectedBook = getSelectedBook();
-    const recommendedBooks = getRecommendedBooks();
-    const suggestedBooks = getSuggestedBooks();
+    const selectedBook = await getSelectedBook();
+    const recommendedBooks = await getRecommendedBooks();
+    const suggestedBooks = await getSuggestedBooks();
 
     return { selectedBook, recommendedBooks, suggestedBooks };
 }
 
 export default async function BookCard () {
-    
 
     const { selectedBook, recommendedBooks, suggestedBooks } = await getData();
 
