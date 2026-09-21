@@ -1,17 +1,13 @@
 
 import BookCard from '../components/UI/BookCard';
 import RecommendedBookCard from '../components/UI/RecommendedBookCard';
+import SuggestedBooks from '../components/UI/SuggestedBooks';
 import NavBar from "../components/client-side/NavBar";
 import { CgPlayButtonO } from "react-icons/cg";
 
-// interface ForYouPageProps {
-//     selectedBook: any;
-//     recommendedBooks: any[];
-//     suggestedBooks: any[];
-// }
 
 export default async function ForYouPage() {
-    const { selectedBook, suggestedBooks } = await BookCard();
+    const { selectedBook } = await BookCard();
 
     return (
         <div>
@@ -37,8 +33,14 @@ export default async function ForYouPage() {
            </section>
            <section id="RECOMMENDED" className="px-8 py-4">
                 <h1 className="py-4 font-bold text-2xl text-black">Recommended For You</h1>
-                <div className="relative w-full mx-auto">
+                <div className="relative w-full mx-auto py-10">
                     <RecommendedBookCard />
+                </div>
+           </section>
+           <section id="SUGGESTED" className="px-8 py-4">
+                <h1 className="py-4 font-bold text-2xl text-black">Suggested Books</h1>
+                <div className="relative w-full mx-auto py-10">
+                    <SuggestedBooks />
                 </div>
            </section>
         </div>

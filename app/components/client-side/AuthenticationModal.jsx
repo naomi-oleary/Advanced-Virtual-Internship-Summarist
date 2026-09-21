@@ -58,15 +58,14 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
         }
     };
 
-    function login() {
-        signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+    async function handleLogin(email, password) {
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = "Invalid Email";
-        });
+            window.location.href = '/for-you';
+        } catch (error) {
+            console.error("Login failed: incorrect email or password")
+        }
     }
 
     function register(email, password) {

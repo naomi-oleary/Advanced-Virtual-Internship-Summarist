@@ -23,7 +23,7 @@ export default function NavBar() {
                     <FaSearch />
                 </button>
             </div>
-            <button className="flex ml-4 place-items-center text-2xl">
+            <button className="flex mx-4 place-items-center text-2xl">
                 <GiHamburgerMenu />
             </button>
         </div>

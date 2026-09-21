@@ -1,20 +1,14 @@
-'use client'
-
 import BookCard from '../UI/BookCard';
-import { CiClock2 } from "react-icons/ci";
-import { FaRegStar } from "react-icons/fa6";
+import { CiClock2 } from 'react-icons/ci';
+import { FaRegStar } from 'react-icons/fa';
 
-export default async function RecommendedBooks() {
-    const { recommendedBooks } = await BookCard();
+export default async function SuggestedBooks() {
+    const { suggestedBooks } = await BookCard();
 
     return (
         <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth whitespace-nowrap">
-            {Array.isArray(recommendedBooks) && recommendedBooks.map((book) => (
-                <div 
-                    key={book.id} 
-                    className="lg:min-w-1/5 md:min-w-1/4 sm:min-w-1/3 xs:min-w-1/2 mx-2 snap-center p-4 hover:bg-teal-50 hover:rounded-sm transition " 
-                    onClick = {handleNa}
-                >
+            {Array.isArray(suggestedBooks) && suggestedBooks.map((book) => (
+                <div key={book.id} className="lg:min-w-1/5 md:min-w-1/4 sm:min-w-1/3 xs:min-w-1/2 mx-2 snap-center" >
                     <img src={book.imageLink} />
                     <div className="text-wrap">
                         <h2 className="font-bold">{book.title}</h2>
