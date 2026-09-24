@@ -3,7 +3,6 @@ import { FaRegStar } from "react-icons/fa6";
 
 export default async function BookCard ({ book }) {
 
-
     return (
         <div 
             key={book.id} 

@@ -42,20 +42,7 @@ export default async function ForYouPage() {
            <section id="SELECTED" className="px-8 py-4">
                 <h1 className="py-4 font-bold text-2xl text-black">Selected just for you</h1>
                 {Array.isArray(selectedBook) && selectedBook.map((book) => (
-                    <div key={book.id} className="flex flex-col bg-amber-500/15 p-8 rounded-sm">
-                        <p className="text-sm">{book.subTitle}</p>
-                        <div className="flex mt-6">
-                            <img src={book.imageLink} className="h-35 max-w-35" />
-                            <div className="flex flex-col gap-2">
-                                <h3 className="font-bold text-md">The Lean Startup</h3>
-                                <p className="text-sm">{book.author}</p>
-                                <div className="flex items-center">
-                                    <CgPlayButtonO className="flex items-start text-4xl mr-4" />
-                                    <p className="font-bold text-sm">3 mins 23 sec</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <BookCard key={book.id} book={book} />
                 ))}
            </section>
            <section id="RECOMMENDED" className="px-8 py-4">

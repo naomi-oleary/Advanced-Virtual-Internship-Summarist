@@ -30,18 +30,9 @@ async function getData(): Promise<Book[]> {
     return res.json() as Promise<Book[]>
 }
 
-async function displayData() {
-    try {
-        const recommendedBooks = await getData();
-        console.log(recommendedBooks);
-    } catch (error) {
-        console.error('error fetching recommended books:', error)
-    }
-}
-
-displayData();
-
 export default async function RecommendedBooks() {
+
+    const recommendedBooks = await getData();
 
     return (
         <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth whitespace-nowrap">

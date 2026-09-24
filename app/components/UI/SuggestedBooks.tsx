@@ -1,4 +1,4 @@
-import BookCard from '../UI/BookCard';
+import BookCard from './BookCard';
 import { CiClock2 } from 'react-icons/ci';
 import { FaRegStar } from 'react-icons/fa';
 
@@ -34,7 +34,7 @@ async function getSuggestedBooks(): Promise<Book[]> {
 getSuggestedBooks();
 
 export default async function SuggestedBooks() {
-    const { suggestedBooks } = await getSuggestedBooks();
+    const suggestedBooks = await getSuggestedBooks();
 
     return (
         <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth whitespace-nowrap">

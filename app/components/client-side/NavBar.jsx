@@ -2,10 +2,11 @@
 
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
+import { useState } from 'react';
 
 export default function NavBar() {
 
-
+    const [query, setQuery] = useState('')
 
     return (
         <div className="flex border-b border-gray-200 h-full p-4 justify-end items-center">
@@ -14,7 +15,7 @@ export default function NavBar() {
                     type='text'
                     value=''
                     placeholder='Search for books'
-                    onChange=''
+                    onChange={(e) => setQuery(e.target.value)}
                     className='flex p-2'>
                 </input>
                 <button 
