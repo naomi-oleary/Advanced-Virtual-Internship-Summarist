@@ -5,9 +5,36 @@ import SuggestedBooks from '../components/UI/SuggestedBooks';
 import NavBar from "../components/client-side/NavBar";
 import { CgPlayButtonO } from "react-icons/cg";
 
+interface Book {
+    id: string;
+    author: string;
+    title: string;
+    subTitle: string;
+    imageLink: string;
+    audioLink: string;
+    totalRating: number;
+    averageRating: number;
+    keyIdeas: number;
+    type: string;
+    status: string;
+    subscriptionRequired: boolean;
+    summary: string;
+    tags: string[];
+    bookDescription: string;
+    authorDescription: string;
+    className?: string;
+}
+
+async function getSelectedBook(): Promise<Book[]> {
+        const res = await fetch('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=selected');
+        if (!res.ok) {
+            throw new Error('Failed to fetch Book');
+        }
+        return res.json() as Promise<Book[]>
+    }
 
 export default async function ForYouPage() {
-    const { selectedBook } = await BookCard();
+    const selectedBook = await getSelectedBook();
 
     return (
         <div>
@@ -24,7 +51,7 @@ export default async function ForYouPage() {
                                 <p className="text-sm">{book.author}</p>
                                 <div className="flex items-center">
                                     <CgPlayButtonO className="flex items-start text-4xl mr-4" />
-                                    <span className="font-bold text-sm">3 mins 23 sec</span>
+                                    <p className="font-bold text-sm">3 mins 23 sec</p>
                                 </div>
                             </div>
                         </div>
