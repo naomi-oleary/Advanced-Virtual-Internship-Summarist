@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 export default function NavBar() {
 
-    const [query, setQuery] = useState('')
+    const [query, setQuery] = useState('');
 
     return (
         <div className="flex border-b border-gray-200 h-full p-4 justify-end items-center">
@@ -19,8 +19,8 @@ export default function NavBar() {
                     className='flex p-2'>
                 </input>
                 <button 
-                    className="border-l  border-gray-300 p-3"
-                    >
+                    className="border-l border-gray-300 p-3"
+                >
                     <FaSearch />
                 </button>
             </div>

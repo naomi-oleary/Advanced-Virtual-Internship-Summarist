@@ -20,7 +20,6 @@ interface Book {
 
 import BookCard from './BookCard';
 
-
 async function getData(): Promise<Book[]> {
     const res = await fetch('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended');
     if (!res.ok) {
