@@ -47,8 +47,8 @@ export default async function BookPage({ params }: PageProps) {
                         </span>
                 </div>
                 <hr className="border-t border-gray-300" />
-                <div className="flex text-white py-4 gap-8">
-                    <Link href={`/player/${book.id}`}>
+                <div className="text-white py-4">
+                    <Link href={`/player/${book.id}`}  className="flex gap-8">
                         <button className="flex bg-blue-950 p-4 gap-2 rounded-sm w-full max-w-40 items-center justify-center hover:bg-blue-950/75 transition">
                             <FiBookOpen />
                             <p>Read</p>
