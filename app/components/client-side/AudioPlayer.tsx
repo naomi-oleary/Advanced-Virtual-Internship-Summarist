@@ -1,9 +1,10 @@
-"use client"
-
-import { TbRewindBackward10, TbRewindForward10 } from "react-icons/tb";
-import { FaRegCirclePlay } from "react-icons/fa6";
+import Controls from '../client-side/Controls';
+import ProgressBar from '../client-side/ProgressBar';
 
 export default function AudioPlayer({ book }) {
+
+    console.log(book.author)
+
     return (
         <div className="flex flex-col sticky bottom-0 bg-blue-950 items-center justify-center text-white ">
             <div className="flex items-center p-4 gap-4">
@@ -14,18 +15,11 @@ export default function AudioPlayer({ book }) {
                 </div>
             </div>
             <div className="flex gap-10 py-3 text-3xl">
-                <button>
-                    <TbRewindBackward10 />
-                </button>
-                <button>
-                    <FaRegCirclePlay />
-                </button>
-                <button>
-                    <TbRewindForward10 />
-                </button>
+                <Controls book={book} />
+                <ProgressBar />
             </div>
             <div>
-                
+
             </div>
 
         </div>
