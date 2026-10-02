@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react';
-import { FaRegArrowAltCircleDown } from "react-icons/fa";
+import { FaRegArrowAltCircleDown, FaRegArrowAltCircleUp } from "react-icons/fa";
 
 
 export default function FAQDropdown() {
@@ -30,7 +30,11 @@ export default function FAQDropdown() {
                     <div className="flex justify-between w-full py-4">
                         <p className="text-lg font-semibold">How does the free 7-day trial work?</p>
                         <button onClick={toggleDropdown}>
-                            <FaRegArrowAltCircleDown />
+                            {isOpen ? (
+                                <FaRegArrowAltCircleUp />
+                            ) : (
+                                <FaRegArrowAltCircleDown />
+                            )}
                         </button>
                     </div>
                     {isOpen && (
@@ -42,7 +46,11 @@ export default function FAQDropdown() {
                     <div className="flex justify-between w-full py-4">
                         <p className="text-lg font-semibold">Can I switch subscriptions once my current plan is activated?</p>
                         <button onClick={toggleDropdown}>
-                            <FaRegArrowAltCircleDown />
+                            {isOpen ? (
+                                <FaRegArrowAltCircleUp />
+                            ) : (
+                                <FaRegArrowAltCircleDown />
+                            )}
                         </button>
                     </div>
                     {isOpen && (
@@ -54,7 +62,11 @@ export default function FAQDropdown() {
                     <div className="flex justify-between w-full py-4">
                         <p className="text-lg font-semibold">What's included in the Premium Plan?</p>
                         <button onClick={toggleDropdown}>
-                            <FaRegArrowAltCircleDown />
+                            {isOpen ? (
+                                <FaRegArrowAltCircleUp />
+                            ) : (
+                                <FaRegArrowAltCircleDown />
+                            )}
                         </button>
                     </div>
                     {isOpen && (
@@ -66,7 +78,11 @@ export default function FAQDropdown() {
                     <div className="flex justify-between w-full py-4">
                         <p className="text-lg font-semibold">Can I cancel my trial or subscription?</p>
                         <button onClick={toggleDropdown}>
-                            <FaRegArrowAltCircleDown />
+                            {isOpen ? (
+                                <FaRegArrowAltCircleUp />
+                            ) : (
+                                <FaRegArrowAltCircleDown />
+                            )}
                         </button>
                     </div>
                     {isOpen && (
