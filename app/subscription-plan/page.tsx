@@ -2,8 +2,10 @@ import Image from 'next/image';
 import Pricing from '../Images/pricing-top.png';
 import { FaRegFileLines, FaHandshakeSimple } from "react-icons/fa6";
 import { PiPlantDuotone } from "react-icons/pi";
+import FAQDropdown from '../components/client-side/FAQDropdown';
 
 export default function SubscriptionPage() {
+
     return (
         <div>
             <div className="flex flex-col items-center text-white bg-blue-950">
@@ -29,9 +31,31 @@ export default function SubscriptionPage() {
                     <span className="font-semibold">Precise recommendations</span> curated for you by experts
                 </p>
             </div>
-            <div className="text-blue-950 flex flex-col items-center">
+            <div className="text-blue-950 flex flex-col items-center p-6">
                 <h1 className="text-2xl font-bold">Choose the plan that works for you</h1>
+                <div className="flex flex-col items-start border-3 border-gray-300 rounded-sm p-4 w-full">
+                    <h3 className="text-xl font-bold">Premium Plus Yearly</h3>
+                    <p className="text-2xl font-bold">$99.99/year</p>
+                    <p className="text-sm text-gray-400">7-day free trial to start</p>
+                </div>
+                <div className="p-4 flex items-center">
+                    <hr className="border-t border-gray-300 w-10" />
+                    <span className="px-2">or</span>
+                    <hr className="border-t border-gray-300 w-10" />
+                </div>
+                <div className="flex flex-col items-start border-3 border-gray-300 rounded-sm p-4 w-full">
+                    <h3 className="text-xl font-bold">Premium Monthly</h3>
+                    <p className="text-2xl font-bold">$9.99/month</p>
+                    <p className="text-sm text-gray-400">No trial included</p>
+                </div>
+                <div className="flex flex-col p-8">
+                    <button className="p-3 bg-green-300 rounded-sm font-semibold">
+                        Start your free trial
+                    </button>
+                    <p className="text-sm text-gray-400 p-2">Cancel your trial at any time without charge</p>
+                </div>
             </div>
+            <FAQDropdown />
         </div>
     )
 }
