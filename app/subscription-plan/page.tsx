@@ -1,7 +1,10 @@
+'use client'
+
 import Image from 'next/image';
 import Pricing from '../Images/pricing-top.png';
 import { FaRegFileLines, FaHandshakeSimple } from "react-icons/fa6";
 import { PiPlantDuotone } from "react-icons/pi";
+import { useState } from 'react';
 import FAQDropdown from '../components/client-side/FAQDropdown';
 
 export default function SubscriptionPage() {
@@ -32,7 +35,7 @@ export default function SubscriptionPage() {
                 </p>
             </div>
             <div className="text-blue-950 flex flex-col items-center p-6">
-                <h1 className="text-2xl font-bold">Choose the plan that works for you</h1>
+                <h1 className="text-2xl font-bold py-8">Choose the plan that works for you</h1>
                 <div className="flex flex-col items-start border-3 border-gray-300 rounded-sm p-4 w-full">
                     <h3 className="text-xl font-bold">Premium Plus Yearly</h3>
                     <p className="text-2xl font-bold">$99.99/year</p>
