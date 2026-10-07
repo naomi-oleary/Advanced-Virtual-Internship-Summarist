@@ -7,7 +7,7 @@ import AuthenticationModal from "./AuthenticationModal.jsx/"
 export default function LoginButton({ className = "" }) {
 
 
-    const [isModalOpen, setIsModalOpen] =useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <div>

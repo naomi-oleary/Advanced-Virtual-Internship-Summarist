@@ -7,8 +7,10 @@ import { FaRegCircle, FaRegDotCircle } from "react-icons/fa";
 import { PiPlantDuotone } from "react-icons/pi";
 import { useState } from 'react';
 import FAQDropdown from '../components/client-side/FAQDropdown';
+import AuthenticationModal from '../components/client-side/AuthenticationModal';
 
-export default function SubscriptionPage() {
+
+export default function SubscriptionPage({ className= "" }) {
 
     const [isToggled1, setIsToggled1] = useState(false);
     const [isToggled2, setIsToggled2] = useState(false);
@@ -23,6 +25,8 @@ export default function SubscriptionPage() {
             setIsToggled2(true);
         }
     };
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <div>
@@ -82,16 +86,52 @@ export default function SubscriptionPage() {
             <div className="flex flex-col items-center p-8 sticky bottom-0 bg-white w-full">
                 {isToggled2 ? (
                     <>
-                        <button className="p-3 bg-green-300 rounded-sm font-semibold w-1/2">
+                        <button 
+                            className="p-3 bg-green-300 rounded-sm font-semibold w-1/2"
+                            onClick={() => setIsModalOpen(true)}
+                        >
                                 Start your first month
                         </button>
+                        <AuthenticationModal 
+                            isOpen={isModalOpen} 
+                            onClose={() => setIsModalOpen(false)}
+                        >
+                            <div className="flex flex-col relative">
+                                <button
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="absolute top-0 right-0"
+                                    >
+                                    ✕
+                                </button>
+                                <h1 className="font-bold text-xl text-blue-950 my-6">Log in to Summarist</h1>
+                            </div>
+                        </AuthenticationModal>
+                        <div>
+            </div>
                         <p className="text-sm text-gray-400 p-2">30-day money back guarantee, no questions asked.</p>
                     </>
                 ) : (
                     <>
-                        <button className="p-3 bg-green-300 rounded-sm font-semibold w-1/2">
+                        <button 
+                            className="p-3 bg-green-300 rounded-sm font-semibold w-1/2"
+                            onClick={() => setIsModalOpen(true)}
+                        >
                                 Start your 7-day free trial
                         </button>
+                        <AuthenticationModal 
+                            isOpen={isModalOpen} 
+                            onClose={() => setIsModalOpen(false)}
+                        >
+                            <div className="flex flex-col relative">
+                                <button
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="absolute top-0 right-0"
+                                    >
+                                    ✕
+                                </button>
+                                <h1 className="font-bold text-xl text-blue-950 my-6">Log in to Summarist</h1>
+                            </div>
+                        </AuthenticationModal>
                         <p className="text-sm text-gray-400 p-2">Cancel your trial any time before it ends for no charge.</p>
                     </>
                 )}
