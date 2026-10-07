@@ -3,11 +3,26 @@
 import Image from 'next/image';
 import Pricing from '../Images/pricing-top.png';
 import { FaRegFileLines, FaHandshakeSimple } from "react-icons/fa6";
+import { FaRegCircle, FaRegDotCircle } from "react-icons/fa";
 import { PiPlantDuotone } from "react-icons/pi";
 import { useState } from 'react';
 import FAQDropdown from '../components/client-side/FAQDropdown';
 
 export default function SubscriptionPage() {
+
+    const [isToggled1, setIsToggled1] = useState(false);
+    const [isToggled2, setIsToggled2] = useState(false);
+
+    const toggleSwitch = (toggleNumber) => {
+        if (toggleNumber === 1) {
+            setIsToggled1(true);
+            setIsToggled2(false);
+        }
+        if (toggleNumber === 2) {
+            setIsToggled1(false);
+            setIsToggled2(true);
+        }
+    };
 
     return (
         <div>
@@ -36,27 +51,50 @@ export default function SubscriptionPage() {
             </div>
             <div className="text-blue-950 flex flex-col items-center p-6">
                 <h1 className="text-2xl font-bold py-8">Choose the plan that works for you</h1>
-                <div className="flex flex-col items-start border-3 border-gray-300 rounded-sm p-4 w-full">
-                    <h3 className="text-xl font-bold">Premium Plus Yearly</h3>
-                    <p className="text-2xl font-bold">$99.99/year</p>
-                    <p className="text-sm text-gray-400">7-day free trial to start</p>
+                <div 
+                    className="flex border-3 border-gray-300 rounded-sm w-full p-4"
+                    onClick={() => toggleSwitch(1)}
+                >
+                    {isToggled1 ? ( <FaRegDotCircle /> ) : ( <FaRegCircle /> )}
+                    <div className="px-6">
+                        <h3 className="text-xl font-bold">Premium Plus Yearly</h3>
+                        <p className="text-2xl font-bold">$99.99/year</p>
+                        <p className="text-sm text-gray-400">7-day free trial to start</p>
+                    </div>
                 </div>
                 <div className="p-4 flex items-center">
                     <hr className="border-t border-gray-300 w-10" />
                     <span className="px-2">or</span>
                     <hr className="border-t border-gray-300 w-10" />
                 </div>
-                <div className="flex flex-col items-start border-3 border-gray-300 rounded-sm p-4 w-full">
-                    <h3 className="text-xl font-bold">Premium Monthly</h3>
-                    <p className="text-2xl font-bold">$9.99/month</p>
-                    <p className="text-sm text-gray-400">No trial included</p>
+                <div 
+                    className="flex border-3 border-gray-300 rounded-sm w-full p-4"
+                    onClick={() => toggleSwitch(2)}
+                >
+                    {isToggled2 ? ( <FaRegDotCircle /> ) : ( <FaRegCircle /> )}
+                    <div className="px-6">
+                        <h3 className="text-xl font-bold">Premium Monthly</h3>
+                        <p className="text-2xl font-bold">$9.99/month</p>
+                        <p className="text-sm text-gray-400">No trial included</p>
+                    </div>
                 </div>
-                <div className="flex flex-col p-8">
-                    <button className="p-3 bg-green-300 rounded-sm font-semibold">
-                        Start your free trial
-                    </button>
-                    <p className="text-sm text-gray-400 p-2">Cancel your trial at any time without charge</p>
-                </div>
+            </div>
+            <div className="flex flex-col items-center p-8 sticky bottom-0 bg-white w-full">
+                {isToggled2 ? (
+                    <>
+                        <button className="p-3 bg-green-300 rounded-sm font-semibold w-1/2">
+                                Start your first month
+                        </button>
+                        <p className="text-sm text-gray-400 p-2">30-day money back guarantee, no questions asked.</p>
+                    </>
+                ) : (
+                    <>
+                        <button className="p-3 bg-green-300 rounded-sm font-semibold w-1/2">
+                                Start your 7-day free trial
+                        </button>
+                        <p className="text-sm text-gray-400 p-2">Cancel your trial any time before it ends for no charge.</p>
+                    </>
+                )}
             </div>
             <FAQDropdown />
         </div>
