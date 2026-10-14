@@ -37,7 +37,7 @@ export default async function ForYouPage() {
     const selectedBook = await getSelectedBook();
 
     return (
-        <div>
+        <div className="relative">
            <NavBar />
            <section id="SELECTED" className="px-8 py-4">
                 <h1 className="py-4 font-bold text-2xl text-black">Selected just for you</h1>

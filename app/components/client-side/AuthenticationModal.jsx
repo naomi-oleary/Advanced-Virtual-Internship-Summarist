@@ -4,8 +4,9 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import GoogleLogo from '../../Images/google.png';
-import { auth } from '../../firebase/init.js';
+import { initFirebase } from "../../firebase.ts";
 import { 
+    getAuth,
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
     signInWithPopup, 
@@ -15,7 +16,38 @@ import {
 
 export default function AuthenticationModal({ isOpen, onClose, children }) {
     const dialogRef = useRef(null);
+
     const router = useRouter();
+
+    const app = initFirebase();
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    const googleSignIn = async () => {
+        const result = await signInWithPopup(auth, provider);
+
+        if (user) {
+            goToForYou();
+        }
+    }
+
+    const goToForYou = () => {
+        router.push('/for-you');
+    }
+
+    const createAccount = async () => {
+        const result = await createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+        })
+        .catch ((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        })
+        if (user) {
+            goToForYou();
+        }
+    }
 
     useEffect(() => {
         const dialog = dialogRef.current;
@@ -31,7 +63,7 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                router.push('/for-you');
+                goToForYou();
             }
         });
         return () => unsubscribe();
@@ -43,22 +75,7 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
         }
     }
 
-    const provider = new GoogleAuthProvider();
-
-    const handleGoogleLogin = async () => {
-        try {
-            const result = await signInWithPopup(auth, provider);
-            const user = result.user;
-        } catch (error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            const email = error.customData.email;
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            console.error("authentication failed")
-        }
-    };
-
-    async function handleLogin(email, password) {
+    async function emailSignIn(email, password) {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
@@ -68,19 +85,7 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
         }
     }
 
-    function register(email, password) {
-        createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = "Invalid Email";
-        });
-    }
-
     const [emailInputValue, setEmailInputValue] = useState('');
-
     const [passwordInputValue, setPasswordInputValue] = useState('');
 
     const handleEmailChange = (e) => {
@@ -90,17 +95,6 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
     const handlePasswordChange = (e) => {
         setPasswordInputValue(e.target.value);
     }
-
-
-    // const handleEmailSubmit = (e) => {
-    //     e.preventDefault();
-    //     console.log('Email and pw:', emailInputValue);
-    // }
-
-    // const handlePasswordSubmit = (e) => {
-    //     e.preventDefault();
-    //     console.log('Email and pw:', passwordInputValue);
-    // }
     
     return (
         <dialog
@@ -118,7 +112,7 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
                         <div className="bg-blue-400 border rounded text-white">
                             <button 
                                 className="p-1 flex h-10 w-full items-center" 
-                                onClick={handleGoogleLogin}
+                                onClick={googleSignIn}
                             >
                                 <Image 
                                     src={GoogleLogo} 
@@ -149,7 +143,7 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
                            placeholder="Password"
                            className="border-2 p-1 border-gray-300 focus:border-green-400 rounded w-full text-gray-500">
                         </input>
-                        <button onClick={register(emailInputValue, passwordInputValue)} className="bg-[#2bd97c] hover:bg-[#20ba68] rounded p-2 h-full w-full">Login</button>
+                        <button onClick={createAccount(emailInputValue, passwordInputValue)} className="bg-[#2bd97c] hover:bg-[#20ba68] rounded p-2 h-full w-full">Login</button>
                     </form>
                 </div>
         </dialog>

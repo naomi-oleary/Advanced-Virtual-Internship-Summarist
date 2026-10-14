@@ -8,6 +8,7 @@ import { PiPlantDuotone } from "react-icons/pi";
 import { useState } from 'react';
 import FAQDropdown from '../components/client-side/FAQDropdown';
 import AuthenticationModal from '../components/client-side/AuthenticationModal';
+import NavBar from '../components/client-side/NavBar';
 
 
 export default function SubscriptionPage({ className= "" }) {
@@ -30,6 +31,7 @@ export default function SubscriptionPage({ className= "" }) {
 
     return (
         <div>
+            <NavBar />
             <div className="flex flex-col items-center text-white bg-blue-950">
                 <h1 className="text-2xl font-semibold mt-6">Get unlimited access an amazing digital library</h1>
                 <p className="py-4">Turn ordinary moments into life-changing learning opportunities</p>
@@ -56,7 +58,7 @@ export default function SubscriptionPage({ className= "" }) {
             <div className="text-blue-950 flex flex-col items-center p-6">
                 <h1 className="text-2xl font-bold py-8">Choose the plan that works for you</h1>
                 <div 
-                    className="flex border-3 border-gray-300 rounded-sm w-full p-4"
+                    className="flex border-3 focus:border-green-300 border-gray-300 rounded-sm w-full p-4"
                     onClick={() => toggleSwitch(1)}
                 >
                     {isToggled1 ? ( <FaRegDotCircle /> ) : ( <FaRegCircle /> )}

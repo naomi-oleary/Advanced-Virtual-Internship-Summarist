@@ -3,10 +3,16 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import SideMenu from '../UI/SideMenu';
 
 export default function NavBar() {
 
     const [query, setQuery] = useState('');
+
+    const [ isMenuOpen, setIsMenuOpen ] = useState(false);
+    const pathname = usePathname();
 
     return (
         <div className="flex border-b border-gray-200 h-full p-4 justify-end items-center">
@@ -24,8 +30,19 @@ export default function NavBar() {
                     <FaSearch />
                 </button>
             </div>
-            <button className="flex mx-4 place-items-center text-2xl">
+            <button 
+                className="flex mx-4 place-items-center text-2xl"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
                 <GiHamburgerMenu />
+                {isMenuOpen ? 
+                    <GiHamburgerMenu /> 
+                    : <SideMenu 
+                    isOpen={isMenuOpen}
+                    onClose={() => setIsMenuOpen(false)}
+                    className="fixed left-0"
+                    />
+                }
             </button>
         </div>
     )

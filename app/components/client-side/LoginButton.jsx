@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from 'react';
-import { auth } from '../../firebase/init.js';
 import AuthenticationModal from "./AuthenticationModal.jsx/"
 
 export default function LoginButton({ className = "" }) {
@@ -31,7 +30,6 @@ export default function LoginButton({ className = "" }) {
                         </button>
                         <h1 className="font-bold text-xl text-blue-950 my-6">Log in to Summarist</h1>
                     </div>
-
                 </AuthenticationModal>
             </div>
         </div>
