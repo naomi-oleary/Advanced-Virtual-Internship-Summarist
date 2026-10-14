@@ -16,12 +16,15 @@ import {
 
 export default function AuthenticationModal({ isOpen, onClose, children }) {
     const dialogRef = useRef(null);
-
     const router = useRouter();
-
     const app = initFirebase();
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [user, setUser] = useState('');
+    const [error, setError] = useState('');
 
     const googleSignIn = async () => {
         const result = await signInWithPopup(auth, provider);
@@ -35,8 +38,9 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
         router.push('/for-you');
     }
 
-    const createAccount = async () => {
-        const result = await createUserWithEmailAndPassword(auth, email, password)
+    const createAccount = async (e) => {
+        e.preventDefault();
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
         })
@@ -47,6 +51,25 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
         if (user) {
             goToForYou();
         }
+    }
+
+    const emailSignIn = async (e) => {
+        e.preventDefault();
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            window.location.href = '/for-you';
+        } catch (error) {
+            console.error("Login failed: incorrect email or password")
+        }
+    }
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    }
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
     }
 
     useEffect(() => {
@@ -61,7 +84,8 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
     }, [isOpen]);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
             if (user) {
                 goToForYou();
             }
@@ -73,27 +97,6 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
         if (e.target ===dialogRef.current) {
             onClose();
         }
-    }
-
-    async function emailSignIn(email, password) {
-        try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-            window.location.href = '/for-you';
-        } catch (error) {
-            console.error("Login failed: incorrect email or password")
-        }
-    }
-
-    const [emailInputValue, setEmailInputValue] = useState('');
-    const [passwordInputValue, setPasswordInputValue] = useState('');
-
-    const handleEmailChange = (e) => {
-        setEmailInputValue(e.target.value);
-    }
-
-    const handlePasswordChange = (e) => {
-        setPasswordInputValue(e.target.value);
     }
     
     return (
@@ -131,19 +134,20 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
                         
                         <input
                            type="email"
-                           value={emailInputValue}
+                           value={email}
                            onChange={handleEmailChange}
                            placeholder="Email Address"
                            className="border-2 p-1 border-gray-300 focus:border-green-400 rounded w-full text-gray-500">
                         </input>
                         <input
                            type="password"
-                           value={passwordInputValue}
+                           value={password}
                            onChange={handlePasswordChange}
                            placeholder="Password"
                            className="border-2 p-1 border-gray-300 focus:border-green-400 rounded w-full text-gray-500">
                         </input>
-                        <button onClick={createAccount(emailInputValue, passwordInputValue)} className="bg-[#2bd97c] hover:bg-[#20ba68] rounded p-2 h-full w-full">Login</button>
+                        <button onClick={createAccount} className="bg-[#2bd97c] hover:bg-[#20ba68] rounded p-2 h-full w-full">Sign Up</button>
+                        <button onClick={emailSignIn} className="bg-[#2bd97c] hover:bg-[#20ba68] rounded p-2 h-full w-full">Login</button>
                     </form>
                 </div>
         </dialog>

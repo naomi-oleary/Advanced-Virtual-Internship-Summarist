@@ -1,8 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Logo from '../../Images/logo.png';
 import { CiHome } from "react-icons/ci";
@@ -11,8 +9,19 @@ import { FaGear} from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import { MdPayment } from "react-icons/md";
 import { IoMdLogOut } from "react-icons/io";
+import { initFirebase } from "../../firebase";
+import { signOut, getAuth } from 'firebase/auth';
+import LoginButton from '../client-side/LoginButton';
 
 export default function SideMenu() {
+
+
+    const app = initFirebase();
+    const auth = getAuth(app);
+
+    const handleSignOut = async () => {
+        await signOut(auth);
+    }
 
     return (
         <div className="absolute left-0 top-0 text-blue-950 bg-gray-50 w-2/3 h-screen">
@@ -43,10 +52,16 @@ export default function SideMenu() {
                             <FaRegQuestionCircle />
                             <p>Support</p>
                         </Link>
-                        <Link href="/" className="flex items-center gap-2 focus:border-l-4 focus:border-green-300">
-                            <IoMdLogOut />
-                            <p>Logout</p>
-                        </Link>
+                        <div>
+                            {user ? (
+                                <button type="button" onClick={handleSignOut}>
+                                    <IoMdLogOut />
+                                    <p>Logout</p>
+                                </button>
+                            ) : (
+                                <LoginButton />
+                            )}
+                        </div>
                     </nav>
             </div>
         </div>
