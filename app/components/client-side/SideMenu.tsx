@@ -10,14 +10,22 @@ import { IoSearch } from "react-icons/io5";
 import { MdPayment } from "react-icons/md";
 import { IoMdLogOut } from "react-icons/io";
 import { initFirebase } from "../../firebase";
-import { signOut, getAuth } from 'firebase/auth';
-import LoginButton from '../client-side/LoginButton';
+import { signOut, getAuth, onAuthStateChanged, User } from 'firebase/auth';
+import { useState, useEffect } from 'react';
+import LoginButton from './LoginButton';
 
-export default function SideMenu() {
+export default function SideMenu({ }) {
 
-
+    const [user, setUser] = useState<User | null>(null);
     const app = initFirebase();
     const auth = getAuth(app);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+        });
+        return () => unsubscribe();
+    }, [auth])
 
     const handleSignOut = async () => {
         await signOut(auth);
@@ -54,7 +62,7 @@ export default function SideMenu() {
                         </Link>
                         <div>
                             {user ? (
-                                <button type="button" onClick={handleSignOut}>
+                                <button type="button" className="flex items-center gap-2" onClick={handleSignOut}>
                                     <IoMdLogOut />
                                     <p>Logout</p>
                                 </button>

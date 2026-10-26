@@ -3,7 +3,7 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
 import { useState, useRef, useEffect } from 'react';
-import SideMenu from '../UI/SideMenu';
+import SideMenu from './SideMenu';
 
 export default function NavBar() {
 
@@ -42,7 +42,7 @@ export default function NavBar() {
                     <FaSearch />
                 </button>
             </div>
-            <button 
+            <div 
                 className="flex mx-4 place-items-center text-2xl"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
@@ -56,7 +56,7 @@ export default function NavBar() {
                         />
                     </div>)
                 }
-            </button>
+            </div>
         </div>
     )
 }

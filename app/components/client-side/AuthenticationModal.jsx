@@ -24,7 +24,6 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [user, setUser] = useState('');
-    const [error, setError] = useState('');
 
     const googleSignIn = async () => {
         const result = await signInWithPopup(auth, provider);
@@ -86,7 +85,7 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
-            if (user) {
+            if (currentUser) {
                 goToForYou();
             }
         });

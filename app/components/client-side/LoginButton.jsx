@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from 'react';
-import AuthenticationModal from "./AuthenticationModal.jsx/"
+import AuthenticationModal from "./AuthenticationModal.jsx"
 
 export default function LoginButton({ className = "" }) {
 
@@ -18,7 +18,7 @@ export default function LoginButton({ className = "" }) {
             </button>
             <div>
                 <AuthenticationModal 
-                    isOpen={isModalOpen} 
+                    isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                 >
                     <div className="flex flex-col relative">
