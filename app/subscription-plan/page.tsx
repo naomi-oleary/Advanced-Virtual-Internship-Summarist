@@ -5,16 +5,60 @@ import Pricing from '../Images/pricing-top.png';
 import { FaRegFileLines, FaHandshakeSimple } from "react-icons/fa6";
 import { FaRegCircle, FaRegDotCircle } from "react-icons/fa";
 import { PiPlantDuotone } from "react-icons/pi";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../../account/AuthContext';
 import FAQDropdown from '../components/client-side/FAQDropdown';
-import AuthenticationModal from '../components/client-side/AuthenticationModal';
 import NavBar from '../components/client-side/NavBar';
+import { getCheckoutUrl, getPortalUrl } from "../../account/stripePayment";
+import { initFirebase } from "../firebase";
+import { getAuth } from 'firebase/auth';
+import { getPremiumStatus } from "../../account/getPremiumStatus";
 
 
 export default function SubscriptionPage({ className= "" }) {
 
     const [isToggled1, setIsToggled1] = useState(false);
     const [isToggled2, setIsToggled2] = useState(false);
+
+    const router = useRouter();
+    const app = initFirebase();
+    const auth = getAuth(app);
+    const { user, loading } = useAuth()
+    const [isPremium, setIsPremium] = useState(false);
+
+    useEffect(() => {
+        if (!loading && !user) {
+            router.replace('/for-you');
+        }
+    }, [user, loading, router]);
+
+    if (loading) return <p>Loading...</p>
+
+    const upgradeToPremium = async () => {
+        const priceId = "price_1UUsCuGw9XYjKYVCwC0ANqGN";
+        const checkoutUrl = await getCheckoutUrl(app, priceId);
+        router.push(checkoutUrl);
+        console.log("Upgrade to Premium");
+    }
+
+    // const upgradeToPremiumPlus = async () => {
+    //     const priceId = "price_1UUsCuGw9XYjKYVCwC0ANqGN";
+    //     const checkoutUrl = await getCheckoutUrl(app, priceId);
+    //     router.push(checkoutUrl);
+    //     console.log("Upgrade to Premium");
+    // }
+
+
+    useEffect(() => {
+        const checkPremium = async () => {
+            const newPremiumStatus = auth.currentUser 
+                ? await getPremiumStatus(app) 
+                : false;
+            setIsPremium(newPremiumStatus);
+        };
+        checkPremium();
+    }, [app, auth.currentUser?.uid]);
 
     const toggleSwitch = (toggleNumber) => {
         if (toggleNumber === 1) {
@@ -26,8 +70,6 @@ export default function SubscriptionPage({ className= "" }) {
             setIsToggled2(true);
         }
     };
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <div>
@@ -90,28 +132,20 @@ export default function SubscriptionPage({ className= "" }) {
                     <>
                         <button 
                             className="p-3 bg-green-300 rounded-sm font-semibold w-1/2"
-                            onClick={() => setIsModalOpen(true)}
+                            onClick={upgradeToPremium}
                         >
                                 Start your first month
                         </button>
-                        <AuthenticationModal 
-                            isOpen={isModalOpen} 
-                            onClose={() => setIsModalOpen(false)}
-                        />
                         <p className="text-sm text-gray-400 p-2">30-day money back guarantee, no questions asked.</p>
                     </>
                 ) : (
                     <>
                         <button 
                             className="p-3 bg-green-300 rounded-sm font-semibold w-1/2"
-                            onClick={() => setIsModalOpen(true)}
+                            onClick={upgradeToPremium}
                         >
                                 Start your 7-day free trial
                         </button>
-                        <AuthenticationModal 
-                            isOpen={isModalOpen} 
-                            onClose={() => setIsModalOpen(false)}
-                        />
                         <p className="text-sm text-gray-400 p-2">Cancel your trial any time before it ends for no charge.</p>
                     </>
                 )}
