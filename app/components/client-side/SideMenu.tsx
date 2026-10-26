@@ -5,14 +5,15 @@ import Image from 'next/image';
 import Logo from '../../Images/logo.png';
 import { CiHome } from "react-icons/ci";
 import { FaRegQuestionCircle } from 'react-icons/fa';
-import { FaGear} from "react-icons/fa6";
+import { FaGear } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import { MdPayment } from "react-icons/md";
-import { IoMdLogOut } from "react-icons/io";
+
 import { initFirebase } from "../../firebase";
-import { signOut, getAuth, onAuthStateChanged, User } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import { useState, useEffect } from 'react';
 import LoginButton from './LoginButton';
+import LogoutButton from './LogoutButton';
 
 export default function SideMenu({ }) {
 
@@ -21,15 +22,11 @@ export default function SideMenu({ }) {
     const auth = getAuth(app);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser: User | null) => {
             setUser(currentUser);
         });
         return () => unsubscribe();
     }, [auth])
-
-    const handleSignOut = async () => {
-        await signOut(auth);
-    }
 
     return (
         <div className="absolute left-0 top-0 text-blue-950 bg-gray-50 w-2/3 h-screen">
@@ -62,10 +59,7 @@ export default function SideMenu({ }) {
                         </Link>
                         <div>
                             {user ? (
-                                <button type="button" className="flex items-center gap-2" onClick={handleSignOut}>
-                                    <IoMdLogOut />
-                                    <p>Logout</p>
-                                </button>
+                                <LogoutButton />
                             ) : (
                                 <LoginButton />
                             )}
