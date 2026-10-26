@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '../../../account/AuthContext';
 import Image from 'next/image';
 import GoogleLogo from '../../Images/google.png';
 import { initFirebase } from "../../firebase.ts";
@@ -15,6 +16,9 @@ import {
 } from "firebase/auth";
 
 export default function AuthenticationModal({ isOpen, onClose, children }) {
+
+    const { user, loading } = useAuth()
+
     const dialogRef = useRef(null);
     const router = useRouter();
     const app = initFirebase();
@@ -23,7 +27,6 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [user, setUser] = useState('');
 
     const googleSignIn = async () => {
         const result = await signInWithPopup(auth, provider);
@@ -83,14 +86,12 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
     }, [isOpen]);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-            if (currentUser) {
-                goToForYou();
-            }
-        });
-        return () => unsubscribe();
-    }, [auth, router]);
+        if (!loading && !user) {
+            router.replace('/for-you');
+        }
+    }, [user, loading, router]);
+
+    if (loading) return <p>Loading...</p>
 
     const handleBackdropClick = (e) => {
         if (e.target ===dialogRef.current) {

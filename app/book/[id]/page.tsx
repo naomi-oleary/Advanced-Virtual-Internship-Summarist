@@ -59,10 +59,6 @@ export default async function BookPage({ params }: PageProps) {
                         </button>
                     </Link>
                 </div>
-                <button className="text-blue-600 font-semibold flex gap-2 items-center">
-                    <FaRegBookmark />
-                    Add Title to My Library
-                </button>
                 <div>
                     <h2 className="text-lg font-semibold py-6">What's it about?</h2>
                     <span className="flex gap-6">
