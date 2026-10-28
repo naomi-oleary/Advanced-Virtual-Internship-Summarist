@@ -27,14 +27,6 @@ export default function SubscriptionPage({ className= "" }) {
     const { user, loading } = useAuth()
     const [isPremium, setIsPremium] = useState(false);
 
-    useEffect(() => {
-        if (!loading && !user) {
-            router.replace('/for-you');
-        }
-    }, [user, loading, router]);
-
-    if (loading) return <p>Loading...</p>
-
     const upgradeToPremium = async () => {
         const priceId = "price_1UUsCuGw9XYjKYVCwC0ANqGN";
         const checkoutUrl = await getCheckoutUrl(app, priceId);
@@ -48,7 +40,11 @@ export default function SubscriptionPage({ className= "" }) {
     //     router.push(checkoutUrl);
     //     console.log("Upgrade to Premium");
     // }
-
+    useEffect(() => {
+        if (!loading && !user) {
+            router.replace('/for-you');
+        }
+    }, [user, loading, router]);
 
     useEffect(() => {
         const checkPremium = async () => {
@@ -70,6 +66,8 @@ export default function SubscriptionPage({ className= "" }) {
             setIsToggled2(true);
         }
     };
+
+    if (loading) return <p>Loading...</p>
 
     return (
         <div>
