@@ -62,7 +62,7 @@ export default async function BookPage({ params }: PageProps) {
                 <div>
                     <h2 className="text-lg font-semibold py-6">What's it about?</h2>
                     <span className="flex gap-6">
-                        {book.tags.map((tags, index) => (
+                        {book.tags.map((tags: string, index: number) => (
                             <p className="bg-green-800/10 max-w-80 text-sm font-semibold p-4 rounded-sm mb-6" key={index}>{tags}</p>
                         ))}
                     </span>

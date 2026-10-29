@@ -64,7 +64,7 @@ export default function SubscriptionPage({ className= "" }) {
         checkPremium();
     }, [app, auth.currentUser?.uid]);
 
-    const toggleSwitch = (toggleNumber) => {
+    const toggleSwitch = (toggleNumber: number) => {
         if (toggleNumber === 1) {
             setIsToggled1(true);
             setIsToggled2(false);

@@ -1,5 +1,19 @@
 'use client';
 
+interface Book {
+    id: string;
+    title: string;
+    subscriptionRequired: boolean;
+    imageLink: string;
+    author: string;
+    subTitle: string;
+    averageRating: number;
+}
+
+interface BookCardProps {
+    book: Book;
+}
+
 import BookPill from './BookPill';
 import { CiClock2 } from "react-icons/ci";
 import { FaRegStar } from "react-icons/fa6";
@@ -9,7 +23,7 @@ import { useEffect, useState } from 'react';
 import { initFirebase } from "../../firebase";
 import { getPremiumStatus } from "../../../account/getPremiumStatus";
 
-export default function BookCard ({ book }) {
+export default function BookCard ({ book }: BookCardProps) {
     const { user, loading } = useAuth();
     const [isReady, setIsReady] = useState(false);
     const app = initFirebase();
@@ -44,7 +58,7 @@ export default function BookCard ({ book }) {
             : `/book/${book.id}`
     ;
 
-    const needPremiumBookPill = (book) => {
+    const needPremiumBookPill = (book: Book) => {
         if (book.subscriptionRequired) {
             return <BookPill />;
         }
@@ -63,7 +77,7 @@ export default function BookCard ({ book }) {
                 <img src={book.imageLink} />
                 <div className="text-wrap">
                     <h2 className="font-bold">{book.title}</h2>
-                    <p className="font-extralight text-sm">{book.author}</p>
+                    <p className="font-light text-sm">{book.author}</p>
                     <p className="text-sm">{book.subTitle}</p>
                     <div className="flex items-center">
                         <CiClock2 />
