@@ -80,8 +80,8 @@ export default function SubscriptionPage({ className= "" }) {
     return (
         <div>
             <NavBar />
-            <div className="flex flex-col items-center text-white bg-blue-950">
-                <h1 className="text-2xl font-semibold mt-6">Get unlimited access an amazing digital library</h1>
+            <div className="flex flex-col items-center text-white bg-blue-950 text-center">
+                <h1 className="text-2xl font-semibold mt-6 text-center">Get unlimited access an amazing digital library</h1>
                 <p className="py-4">Turn ordinary moments into life-changing learning opportunities</p>
                 <Image 
                     src={Pricing} 
@@ -89,7 +89,7 @@ export default function SubscriptionPage({ className= "" }) {
                     className="max-w-1/2 rounded-t-full"
                 />
             </div>
-            <div className="flex flex-col items-center gap-y-4 p-10 text-lg text-blue-950">
+            <div className="flex flex-col items-center gap-y-4 p-10 text-lg text-blue-950 text-center">
                 <FaRegFileLines className="text-5xl" />
                 <p>
                     <span className="font-semibold">Key ideas in little time</span> with many books to read

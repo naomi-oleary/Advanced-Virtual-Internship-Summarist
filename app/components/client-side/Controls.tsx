@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef } from 'react';
 import { TbRewindBackward10, TbRewindForward10 } from "react-icons/tb";
 import { BsFillPauseFill, BsFillPlayFill } from 'react-icons/bs';
 
@@ -11,7 +11,6 @@ export default function Controls({ book }) {
     const [currentTime, setCurrentTime] = useState(0);
 
     const audioRef = useRef<HTMLAudioElement | null>(null);
-    const playAnimationRef = useRef<number | null>(null);
     const progressBarRef = useRef<HTMLInputElement>(null);
 
     const togglePlayPause = () => {
