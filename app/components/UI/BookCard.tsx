@@ -4,20 +4,15 @@ import BookPill from './BookPill';
 import { CiClock2 } from "react-icons/ci";
 import { FaRegStar } from "react-icons/fa6";
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../account/AuthContext';
 import { useEffect, useState } from 'react';
 import { initFirebase } from "../../firebase";
-import { getAuth } from 'firebase/auth';
 import { getPremiumStatus } from "../../../account/getPremiumStatus";
 
 export default function BookCard ({ book }) {
-
-    const router = useRouter();
     const { user, loading } = useAuth();
     const [isReady, setIsReady] = useState(false);
     const app = initFirebase();
-    const auth = getAuth(app);
     const [isPremium, setIsPremium] = useState(false);
 
     useEffect(() => {
@@ -26,13 +21,21 @@ export default function BookCard ({ book }) {
 
     useEffect(() => {
         const checkPremium = async () => {
-            const newPremiumStatus = auth.currentUser 
-                ? await getPremiumStatus(app) 
-                : false;
-            setIsPremium(newPremiumStatus);
+            if (loading) return;
+            if (!user) {
+                setIsPremium(false);
+                return;
+            }
+            try {
+                const newPremiumStatus = await getPremiumStatus(app);
+                setIsPremium(newPremiumStatus); 
+            } catch (error) {
+                console.error ("failed to fetch premium status:", error);
+                setIsPremium(false);;
+            }
         };
         checkPremium();
-    }, [app, auth.currentUser?.uid]);
+    }, [user, loading, app]);
 
     const href = !isReady
         ? "#"

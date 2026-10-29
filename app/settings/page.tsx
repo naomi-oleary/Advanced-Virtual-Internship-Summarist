@@ -2,7 +2,6 @@
 
 import NavBar from "../components/client-side/NavBar";
 import { useRouter } from "next/navigation";
-import PremiumPlusPanel from "../../account/premiumPlusPanel";
 import PremiumPanel from "../../account/premiumPanel";
 import { useEffect, useState } from "react";
 import { initFirebase } from "../firebase";
@@ -29,13 +28,13 @@ export default function Settings() {
             checkPremium();
         }, [app, auth.currentUser?.uid]);
     
-        const manageSubscription = async () => {
-            const portalUrl = await getPortalUrl(app);
-            router.push(portalUrl);
-            console.log("Manage Subscription");
-        };
+        // const manageSubscription = async () => {
+        //     const portalUrl = await getPortalUrl(app);
+        //     router.push(portalUrl);
+        //     console.log("Manage Subscription");
+        // };
 
-        const statusPanel = isPremium ? <PremiumPlusPanel /> : <PremiumPanel />; 
+        const statusPanel = isPremium ? <PremiumPanel /> : "Not subscribed - visit subscription page to access premium material."; 
 
     return (
         <div>
@@ -44,10 +43,10 @@ export default function Settings() {
                 <h1 className="text-xl font-bold py-4">Settings</h1>
                 <hr className="border-t border-gray-300" />
                 <h2 className="text-lg font-bold py-4">Your Subscription Plan</h2>
-                <p className="mb-4">{statusPanel}</p>
+                <div className="mb-4">{statusPanel}</div>
                 <hr className="border-t border-gray-300" />
                 <h2 className="text-lg font-bold py-4">Email</h2>
-                <p>{email}</p>
+                <div>{email}</div>
             </div>
         </div>
     )
