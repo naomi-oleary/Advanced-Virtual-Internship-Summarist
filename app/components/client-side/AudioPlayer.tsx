@@ -1,8 +1,21 @@
 import Controls from '../client-side/Controls';
 
-export default function AudioPlayer({ book }) {
+interface Book {
+    id: string;
+    title: string;
+    subscriptionRequired: boolean;
+    imageLink: string;
+    author: string;
+    subTitle: string;
+    averageRating: number;
+    audioLink: string
+}
 
-    console.log(book.author)
+interface BookCardProps {
+    book: Book;
+}
+
+export default function AudioPlayer({ book }: BookCardProps ) {
 
     return (
         <div className="flex flex-col sticky bottom-0 bg-blue-950 items-center justify-center text-white py-4">

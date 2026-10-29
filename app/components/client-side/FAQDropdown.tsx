@@ -6,8 +6,8 @@ import { FaRegArrowAltCircleDown, FaRegArrowAltCircleUp } from "react-icons/fa";
 
 export default function FAQDropdown() {
 
-    const [openDropdown, setOpenDropdown] = useState(null);
-    const toggleDropdown = (index) => {
+    const [openDropdown, setOpenDropdown] = useState<number | null>(null);
+    const toggleDropdown = (index: number) => {
         setOpenDropdown(openDropdown === index ? null : index);
     }
 

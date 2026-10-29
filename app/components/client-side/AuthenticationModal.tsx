@@ -78,11 +78,12 @@ export default function AuthenticationModal({ isOpen, onClose, children }: Authe
         }
     }
 
-    const handleEmailChange = (e) => {
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
         setEmail(e.target.value);
     }
 
-    const handlePasswordChange = (e) => {
+    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     }
 
@@ -99,7 +100,7 @@ export default function AuthenticationModal({ isOpen, onClose, children }: Authe
 
     if (loading) return <p>Loading...</p>
 
-    const handleBackdropClick = (e) => {
+    const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
         if (e.target ===dialogRef.current) {
             onClose();
         }

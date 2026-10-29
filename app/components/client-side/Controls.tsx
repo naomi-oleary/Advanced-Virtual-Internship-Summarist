@@ -1,10 +1,25 @@
 'use client'
 
+interface Book {
+    id: string;
+    title: string;
+    subscriptionRequired: boolean;
+    imageLink: string;
+    author: string;
+    subTitle: string;
+    averageRating: number;
+    audioLink: string;
+}
+
+interface BookCardProps {
+    book: Book;
+}
+
 import { useState, useRef } from 'react';
 import { TbRewindBackward10, TbRewindForward10 } from "react-icons/tb";
 import { BsFillPauseFill, BsFillPlayFill } from 'react-icons/bs';
 
-export default function Controls({ book }) {
+export default function Controls({ book }: BookCardProps) {
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [duration, setDuration] = useState(0);
