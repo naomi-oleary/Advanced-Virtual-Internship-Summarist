@@ -10,10 +10,11 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../account/AuthContext';
 import FAQDropdown from '../components/client-side/FAQDropdown';
 import NavBar from '../components/client-side/NavBar';
-import { getCheckoutUrl, getPortalUrl } from "../../account/stripePayment";
+import { getCheckoutUrl } from "../../account/stripePayment";
 import { initFirebase } from "../firebase";
 import { getAuth } from 'firebase/auth';
 import { getPremiumStatus } from "../../account/getPremiumStatus";
+import AuthenticationModal from '../components/client-side/AuthenticationModal';
 
 
 export default function SubscriptionPage({ className= "" }) {
@@ -26,6 +27,7 @@ export default function SubscriptionPage({ className= "" }) {
     const auth = getAuth(app);
     const { user, loading } = useAuth()
     const [isPremium, setIsPremium] = useState(false);
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
     const upgradeToPremium = async () => {
         const priceId = "price_1UUsCuGw9XYjKYVCwC0ANqGN";
@@ -34,15 +36,21 @@ export default function SubscriptionPage({ className= "" }) {
         console.log("Upgrade to Premium");
     }
 
-    // const upgradeToPremiumPlus = async () => {
-    //     const priceId = "price_1UUsCuGw9XYjKYVCwC0ANqGN";
-    //     const checkoutUrl = await getCheckoutUrl(app, priceId);
-    //     router.push(checkoutUrl);
-    //     console.log("Upgrade to Premium");
-    // }
+    const handleSubscriptionClick = () => {
+        if (!user) {
+            setIsAuthModalOpen(true);
+        } else upgradeToPremium();
+    }
+
+    useEffect(() => {
+        if (!loading && user && isPremium) {
+            router.replace('/settings');
+        }
+    }, [user, loading, router, isPremium]);
+
     useEffect(() => {
         if (!loading && !user) {
-            router.replace('/for-you');
+            router.replace('/subscription-plan');
         }
     }, [user, loading, router]);
 
@@ -126,26 +134,21 @@ export default function SubscriptionPage({ className= "" }) {
                 </div>
             </div>
             <div className="flex flex-col items-center p-8 sticky bottom-0 bg-white w-full">
-                {isToggled2 ? (
                     <>
                         <button 
                             className="p-3 bg-green-300 rounded-sm font-semibold w-1/2"
-                            onClick={upgradeToPremium}
-                        >
-                                Start your first month
+                            onClick={handleSubscriptionClick}
+                        >  
+                            {isToggled2 ? ("Start your first month") : ("Start Your 7-day Free Trial")}
                         </button>
                         <p className="text-sm text-gray-400 p-2">30-day money back guarantee, no questions asked.</p>
                     </>
-                ) : (
-                    <>
-                        <button 
-                            className="p-3 bg-green-300 rounded-sm font-semibold w-1/2"
-                            onClick={upgradeToPremium}
-                        >
-                                Start your 7-day free trial
-                        </button>
-                        <p className="text-sm text-gray-400 p-2">Cancel your trial any time before it ends for no charge.</p>
-                    </>
+                {isAuthModalOpen && (
+                    <AuthenticationModal 
+                        isOpen={isAuthModalOpen}
+                        onClose={() => setIsAuthModalOpen(false)}
+                    >
+                    </AuthenticationModal>
                 )}
             </div>
             <FAQDropdown />

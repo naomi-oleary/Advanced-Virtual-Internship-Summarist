@@ -4,8 +4,15 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
 import { useState, useRef, useEffect } from 'react';
 import SideMenu from './SideMenu';
+import Link from 'next/link';
+import { useAuth } from "../../../account/AuthContext";
+import { useRouter } from 'next/navigation';
+import LoginButton from './LoginButton';
+import LogoutButton from './LogoutButton';
 
 export default function NavBar() {
+
+    const { user, loading } = useAuth();
 
     const [query, setQuery] = useState('');
     const [ isMenuOpen, setIsMenuOpen ] = useState(false);
@@ -28,6 +35,8 @@ export default function NavBar() {
         };
     }, []);
 
+    if (loading) return <p>Loading...</p>
+
     return (
         <div className="flex border-b border-gray-200 h-full p-4 justify-end items-center">
             <div className="flex bg-gray-100 border border-gray-300 rounded-lg">
@@ -46,10 +55,28 @@ export default function NavBar() {
                 className="flex mx-4 place-items-center text-2xl"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-                <GiHamburgerMenu />
+                <GiHamburgerMenu className="md:hidden" />
+                <nav className="hidden md:flex text-sm gap-2 lg:visible" >
+                    <Link href="/for-you">
+                        For You
+                    </Link>
+                    <Link href="/subscription-plan">
+                        Subscriptions
+                    </Link>
+                    <div className="cursor-not-allowed" >Search</div>
+                    <Link href="/settings">Settings</Link>
+                    <div>
+                        {user ? (
+                            <LogoutButton />
+                        ) : (
+                            <LoginButton />
+                        )}
+                    </div>
+                </nav>
+
                 {isMenuOpen && (
                     <div ref={sideMenuRef} className="transition duration-200 ease-in-out">
-                        <SideMenu 
+                        <SideMenu
                             isOpen={isMenuOpen}
                             onClose={() => setIsMenuOpen(false)}
                             className="fixed left-0"

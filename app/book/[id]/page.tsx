@@ -1,3 +1,4 @@
+
 interface PageProps {
     params: Promise<{ id: string }>;
 }
@@ -8,7 +9,6 @@ import { FaRegStar } from "react-icons/fa6";
 import { SlMicrophone } from "react-icons/sl";
 import { RiLightbulbLine } from "react-icons/ri";
 import { FiBookOpen } from "react-icons/fi";
-import { FaRegBookmark } from "react-icons/fa";
 import Link from 'next/link';
 
 

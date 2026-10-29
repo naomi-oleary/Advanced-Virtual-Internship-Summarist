@@ -5,21 +5,27 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../account/AuthContext';
 import Image from 'next/image';
 import GoogleLogo from '../../Images/google.png';
-import { initFirebase } from "../../firebase.ts";
+import { initFirebase } from "../../firebase";
+import Link from 'next/link';
 import { 
     getAuth,
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
     signInWithPopup, 
     GoogleAuthProvider,
-    onAuthStateChanged 
 } from "firebase/auth";
 
-export default function AuthenticationModal({ isOpen, onClose, children }) {
+interface AuthenticationModalProps {
+    isOpen: Boolean;
+    onClose: () => void;
+    children?: React.ReactNode;
+}
+
+export default function AuthenticationModal({ isOpen, onClose, children }: AuthenticationModalProps) {
 
     const { user, loading } = useAuth()
 
-    const dialogRef = useRef(null);
+    const dialogRef = useRef<HTMLDialogElement | null>(null);
     const router = useRouter();
     const app = initFirebase();
     const auth = getAuth(app);
@@ -27,40 +33,46 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    
+    const goToDestination = (path: string = '/for-you') => {
+        router.push(path);
+    }
 
-    const googleSignIn = async () => {
-        const result = await signInWithPopup(auth, provider);
-
-        if (user) {
-            goToForYou();
+    const googleSignIn = async (e: React.MouseEvent, redirectTo?: string) => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            
+            if (user) {
+                goToDestination(redirectTo);
+            }
+        } catch (error) {
+            console.error("Google sign-in error", error)
         }
     }
 
-    const goToForYou = () => {
-        router.push('/for-you');
-    }
-
-    const createAccount = async (e) => {
+    const createAccount = async (e: React.FormEvent, redirectTo?: string) => {
         e.preventDefault();
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password)
             const user = userCredential.user;
-        })
-        .catch ((error) => {
+            if (user) {
+                goToDestination(redirectTo);
+            }
+        } catch (error: any) {
             const errorCode = error.code;
             const errorMessage = error.message;
-        })
-        if (user) {
-            goToForYou();
+            console.error(errorCode, errorMessage);
         }
     }
 
-    const emailSignIn = async (e) => {
+    const emailSignIn = async (e: React.FormEvent, redirectTo?: string) => {
         e.preventDefault();
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
-            window.location.href = '/for-you';
+            if (user) {
+                goToDestination(redirectTo);
+            }
         } catch (error) {
             console.error("Login failed: incorrect email or password")
         }
@@ -84,12 +96,6 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
             dialog.close();
         }
     }, [isOpen]);
-
-    useEffect(() => {
-        if (!loading && !user) {
-            router.replace('/for-you');
-        }
-    }, [user, loading, router]);
 
     if (loading) return <p>Loading...</p>
 
@@ -119,7 +125,13 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
                         {children}
                         <div className="flex flex-col py-2 gap-2">
                             <div className="bg-blue-900/90 border rounded text-white">
-                                <button className="p-2 h-10 w-full">Login as a Guest</button>
+                                <nav>
+                                    <Link href={`/for-you`}>
+                                        <button className="p-2 h-10 w-full">
+                                            Log In as a Guest
+                                        </button>
+                                     </Link>
+                                </nav>
                             </div>
                             <span>or</span>
                             <div className="bg-blue-400 border rounded text-white">
@@ -160,6 +172,7 @@ export default function AuthenticationModal({ isOpen, onClose, children }) {
                             <button onClick={emailSignIn} className="bg-[#2bd97c] hover:bg-[#20ba68] rounded p-2 h-full w-full">Login</button>
                         </form>
                     </div>
+                    {children}
             </dialog>
         </div>
     );

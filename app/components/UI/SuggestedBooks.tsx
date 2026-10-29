@@ -21,15 +21,13 @@ interface Book {
 }
 
 async function getSuggestedBooks(): Promise<Book[]> {
-        const res = await  fetch('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=suggested');
-        if (!res.ok) {
-            throw new Error('Failed to fetch Book');
-        }
-
-        return res.json() as Promise<Book[]>
+    const res = await  fetch('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=suggested');
+    if (!res.ok) {
+        throw new Error('Failed to fetch Book');
     }
 
-getSuggestedBooks();
+    return res.json() as Promise<Book[]>
+}
 
 export default async function SuggestedBooks() {
     const suggestedBooks = await getSuggestedBooks();

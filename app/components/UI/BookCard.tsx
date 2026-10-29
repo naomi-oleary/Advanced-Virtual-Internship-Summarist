@@ -1,18 +1,45 @@
+'use client';
+
 import BookPill from './BookPill';
 import { CiClock2 } from "react-icons/ci";
 import { FaRegStar } from "react-icons/fa6";
 import Link from 'next/link';
-// import { useEffect } from 'react';
-// import { useRouter } from 'next/navigation';
-// import { initFirebase } from "../../firebase";
-// import { getAuth } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../../../account/AuthContext';
+import { useEffect, useState } from 'react';
+import { initFirebase } from "../../firebase";
+import { getAuth } from 'firebase/auth';
+import { getPremiumStatus } from "../../../account/getPremiumStatus";
 
-export default async function BookCard ({ book }) {
+export default function BookCard ({ book }) {
 
-    // const router = useRouter();
-    // const app = initFirebase();
-    // const auth = getAuth(app);
-    // const { user, loading } = useAuth()
+    const router = useRouter();
+    const { user, loading } = useAuth();
+    const [isReady, setIsReady] = useState(false);
+    const app = initFirebase();
+    const auth = getAuth(app);
+    const [isPremium, setIsPremium] = useState(false);
+
+    useEffect(() => {
+        setIsReady(true);
+    }, []);
+
+    useEffect(() => {
+        const checkPremium = async () => {
+            const newPremiumStatus = auth.currentUser 
+                ? await getPremiumStatus(app) 
+                : false;
+            setIsPremium(newPremiumStatus);
+        };
+        checkPremium();
+    }, [app, auth.currentUser?.uid]);
+
+    const href = !isReady
+        ? "#"
+        : book.subscriptionRequired && (!user || user && !isPremium)
+            ? "/subscription-plan"
+            : `/book/${book.id}`
+    ;
 
     const needPremiumBookPill = (book) => {
         if (book.subscriptionRequired) {
@@ -21,20 +48,12 @@ export default async function BookCard ({ book }) {
         return null;
     }
 
-    // const premiumClickHandler = (book) => {
-    //     useEffect(() => {
-    //         if (!loading && !user) {
-    //             router.replace('/subscription-plan');
-    //         }
-    //     }, [user, loading, router]);
-    // }
-
     return (
         <div 
             key={book.id} 
-            className="lg:min-w-1/5 md:min-w-1/4 sm:min-w-1/3 xs:min-w-1/2 mx-2 snap-center p-4 hover:bg-olive-100 hover:rounded-sm transition " 
+            className="lg:min-w-1/5 md:min-w-1/4 sm:min-w-1/3 xs:min-w-1/2 mx-2 snap-center p-4 hover:bg-olive-100 hover:rounded-sm transition "
         >
-            <Link href={`/book/${book.id}`}>
+            <Link href={href}>
                 <div className="flex justify-end mr-2">
                     {needPremiumBookPill(book)}
                 </div>
