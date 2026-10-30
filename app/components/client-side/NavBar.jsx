@@ -4,23 +4,23 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { FaSearch } from "react-icons/fa";
 import { useState, useRef, useEffect } from 'react';
 import SideMenu from './SideMenu';
-import Link from 'next/link';
 import { useAuth } from "../../../account/AuthContext";
-import { useRouter } from 'next/navigation';
-import LoginButton from './LoginButton';
-import LogoutButton from './LogoutButton';
 
 export default function NavBar() {
 
     const { user, loading } = useAuth();
 
     const [query, setQuery] = useState('');
-    const [ isMenuOpen, setIsMenuOpen ] = useState(false);
+    const [ isMenuOpen, setIsMenuOpen ] = useState(true);
     const sideMenuRef = useRef(null);
 
     const closeMenu = () => {
         setIsMenuOpen(false);
     };
+
+    const openMenu = () => {
+        setIsMenuOpen(true);
+    }
 
     const handleClickOutside = (event) => {
         if (sideMenuRef.current && !sideMenuRef.current.contains(event.target)) {
@@ -38,7 +38,7 @@ export default function NavBar() {
     if (loading) return <p>Loading...</p>
 
     return (
-        <div className="flex border-b border-gray-200 h-full p-4 justify-end items-center">
+        <div className="flex border-b border-gray-200 h-full md:w-full p-4 justify-end items-center">
             <div className="flex bg-gray-100 border border-gray-300 rounded-lg">
                 <input
                     type='text'
@@ -55,35 +55,16 @@ export default function NavBar() {
                 className="flex mx-4 place-items-center text-2xl"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-                <GiHamburgerMenu className="md:hidden" />
-                <nav className="hidden md:flex text-sm gap-2 lg:visible" >
-                    <Link href="/for-you">
-                        For You
-                    </Link>
-                    <Link href="/subscription-plan">
-                        Subscriptions
-                    </Link>
-                    <div className="cursor-not-allowed" >Search</div>
-                    <Link href="/settings">Settings</Link>
-                    <div>
-                        {user ? (
-                            <LogoutButton />
-                        ) : (
-                            <LoginButton />
-                        )}
-                    </div>
-                </nav>
-
-                {isMenuOpen && (
-                    <div ref={sideMenuRef} className="transition duration-200 ease-in-out">
-                        <SideMenu
-                            isOpen={isMenuOpen}
-                            onClose={() => setIsMenuOpen(false)}
-                            className="fixed left-0"
-                        />
-                    </div>)
-                }
+                <GiHamburgerMenu onClick={openMenu} className="md:hidden" />
             </div>
-        </div>
+            <div ref={sideMenuRef} 
+                className={`${isMenuOpen ? 'flex' : 'hidden'} md:flex fixed left-0 z-4 md:w-1/4 md:h-100vh transition duration-200 ease-in-out`}>
+                <SideMenu
+                    isOpen={isMenuOpen}
+                    onClose={() => setIsMenuOpen(false)}
+                    className="w-full h-full"
+                />
+            </div>
+</div>
     )
 }

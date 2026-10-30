@@ -8,6 +8,7 @@ import { initFirebase } from "../firebase";
 import { getAuth } from "firebase/auth";
 import { getCheckoutUrl, getPortalUrl } from "../../account/stripePayment";
 import { getPremiumStatus } from "../../account/getPremiumStatus";
+import Footer from "../components/Footer";
 
 
 export default function Settings() {
@@ -37,16 +38,21 @@ export default function Settings() {
         const statusPanel = isPremium ? <PremiumPanel /> : "Not subscribed - visit subscription page to access premium material."; 
 
     return (
-        <div>
-            <NavBar />
-            <div className="text-blue-950 p-8">
-                <h1 className="text-xl font-bold py-4">Settings</h1>
-                <hr className="border-t border-gray-300" />
-                <h2 className="text-lg font-bold py-4">Your Subscription Plan</h2>
-                <div className="mb-4">{statusPanel}</div>
-                <hr className="border-t border-gray-300" />
-                <h2 className="text-lg font-bold py-4">Email</h2>
-                <div>{email}</div>
+        <div className="flex flex-col min-h-screen w-full">
+           <NavBar />
+           <div className="flex-row md:absolute md:right-0 md:w-3/4">
+                <div className="flex flex-col w-full md:mt-20">
+                    <div className="text-blue-950 p-8">
+                        <h1 className="text-xl font-bold py-4">Settings</h1>
+                        <hr className="border-t border-gray-300" />
+                        <h2 className="text-lg font-bold py-4">Your Subscription Plan</h2>
+                        <div className="mb-4">{statusPanel}</div>
+                        <hr className="border-t border-gray-300" />
+                        <h2 className="text-lg font-bold py-4">Email</h2>
+                        <div>{email}</div>
+                    </div>
+                    <Footer />
+                </div>
             </div>
         </div>
     )

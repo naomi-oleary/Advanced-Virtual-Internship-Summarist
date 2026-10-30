@@ -28,12 +28,12 @@ export default function SideMenu({ }) {
     if (loading) return <p>Loading...</p>
 
     return (
-        <div className="absolute left-0 top-0 text-blue-950 bg-gray-50 w-2/3 h-screen flex flex-col justify-between">
-            <div>
+        <div className="absolute left-0 text-blue-950 bg-gray-50 w-1/4 h-full flex flex-col z-3">
+            <div className="fixed top-0 h-screen bg-gray-50 w-1/4">
                 <figure className="nav__img--mask flex justify-center py-8">
-                    <Image className="nav__img" src={Logo} alt="logo" />
+                    <Image className="nav__img p-3" src={Logo} alt="logo" />
                 </figure>
-                <nav className="flex flex-col items-start px-6 text-base gap-y-4">
+                <nav className="flex flex-col items-start px-6 text-sm sm:text-base gap-y-4">
                     <Link href="/for-you" className="flex items-center gap-2 focus:border-l-4 focus:border-green-300">
                         <CiHome />
                         <p>For You</p>
@@ -48,8 +48,8 @@ export default function SideMenu({ }) {
                     </Link>
                 </nav>
             </div>
-            <div className="text-base px-6">
-                <nav className="flex flex-col items-start gap-y-4 mb-4">
+            <div className="text-base px-6 fixed bottom-0">
+                <nav className="flex flex-col items-start text-sm sm:text-base gap-y-4 mb-4">
                     <Link href="/settings" className="flex items-center gap-2 focus:border-l-4 focus:border-green-300">
                         <FaGear />
                         <p>Settings</p>
