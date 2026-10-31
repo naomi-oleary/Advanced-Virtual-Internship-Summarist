@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '../../Images/logo.png';
 import { CiHome } from "react-icons/ci";
-import { FaRegQuestionCircle } from 'react-icons/fa';
+import { FaRegQuestionCircle, FaRegBookmark } from 'react-icons/fa';
 import { FaGear } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import { MdPayment } from "react-icons/md";
@@ -45,6 +45,10 @@ export default function SideMenu({ }) {
                     <Link href="/" className="cursor-not-allowed flex items-center gap-2 focus:border-l-4 focus:border-green-300">
                         <IoSearch />
                         <p>Search</p>
+                    </Link>
+                    <Link href="/library" className="flex items-center gap-2 focus:border-l-4 focus:border-green-300">
+                        <FaRegBookmark />
+                        <p>Library</p>
                     </Link>
                 </nav>
             </div>

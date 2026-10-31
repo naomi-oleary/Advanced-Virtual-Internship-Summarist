@@ -9,6 +9,7 @@ import { FaRegStar } from "react-icons/fa6";
 import { SlMicrophone } from "react-icons/sl";
 import { RiLightbulbLine } from "react-icons/ri";
 import { FiBookOpen } from "react-icons/fi";
+import AddToLibraryButton from '../../components/UI/AddToLibraryButton.jsx';
 import Link from 'next/link';
 import Footer from '@/app/components/Footer.jsx';
 
@@ -18,6 +19,10 @@ export default async function BookPage({ params }: PageProps) {
     const { id } = await params;
     const res = await fetch(`https://us-central1-summaristt.cloudfunctions.net/getBook?id=${id}`);
     const book = await res.json();
+
+    const addToLibrary = () => {
+        
+    }
 
  return (
         <div className="flex flex-col min-h-screen w-full">
@@ -63,6 +68,7 @@ export default async function BookPage({ params }: PageProps) {
                                 </Link>
                             </div>
                             <div>
+                                <AddToLibraryButton />
                                 <h2 className="text-lg font-semibold py-6">What's it about?</h2>
                                 <span className="flex gap-6">
                                     {book.tags.map((tags: string, index: number) => (
