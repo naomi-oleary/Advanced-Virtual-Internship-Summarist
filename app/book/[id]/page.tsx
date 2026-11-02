@@ -15,15 +15,14 @@ import AddToLibraryButton from '../../components/UI/AddToLibraryButton.jsx';
 import Link from 'next/link';
 import Footer from '@/app/components/Footer.jsx';
 import { initFirebase, db } from "../../firebase";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { doc, setDoc, deleteDoc, getDoc, collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { doc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
 
 
 export default function BookPage({ params }: PageProps) {
 
     const [book, setBook] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(true);
-    const [libraryBooks, setLibraryBooks] = useState<any[]>([]);
     const app = initFirebase();
     const auth = getAuth(app);
 

@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import BookCard from '../components/UI/BookCard';
 import { initFirebase, db } from "../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { doc, setDoc, deleteDoc, getDoc, collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 
 export default function LibraryPage() {
 
@@ -45,23 +45,22 @@ export default function LibraryPage() {
                 <div className="flex flex-col w-full md:mt-20">
                     <div className="text-blue-950 p-8">
                         <h1 className="text-xl font-bold py-4">My Library</h1>
-                        <div>
+                        <div className="">
                             {libraryBooks.length === 0 
                                 ? (<div>No books have been added to your library. Make your first selection to start building your collection.</div>)
                                 : (
-                                    <div className="flex flex-1 flex-grid grid-cols-5 max-h-50">
-                                        <div className="object-fit">
+                                    <div className="flex flex-col overflow-auto">
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                                             {libraryBooks.map((book: any, index: number) => (
                                                 <BookCard key={book.id || index} book={book} />
                                             ))}
                                         </div>
                                     </div>
-                                )
-                            }
+                            )}
                         </div>
                     </div>
-                    <Footer />
                 </div>
+                <Footer />
             </div>
         </div>
     )
