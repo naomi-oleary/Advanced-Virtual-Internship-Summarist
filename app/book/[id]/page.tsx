@@ -1,9 +1,11 @@
+'use client'
 
 interface PageProps {
     params: Promise<{ id: string }>;
 }
 
 import NavBar from '../../components/client-side/NavBar.jsx';
+import { useState, useEffect } from 'react';
 import { CiClock2 } from "react-icons/ci";
 import { FaRegStar } from "react-icons/fa6";
 import { SlMicrophone } from "react-icons/sl";
@@ -12,16 +14,72 @@ import { FiBookOpen } from "react-icons/fi";
 import AddToLibraryButton from '../../components/UI/AddToLibraryButton.jsx';
 import Link from 'next/link';
 import Footer from '@/app/components/Footer.jsx';
+import { initFirebase, db } from "../../firebase";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { doc, setDoc, deleteDoc, getDoc, collection, onSnapshot, query, orderBy } from "firebase/firestore";
 
 
-export default async function BookPage({ params }: PageProps) {
+export default function BookPage({ params }: PageProps) {
 
-    const { id } = await params;
-    const res = await fetch(`https://us-central1-summaristt.cloudfunctions.net/getBook?id=${id}`);
-    const book = await res.json();
+    const [book, setBook] = useState<any>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [libraryBooks, setLibraryBooks] = useState<any[]>([]);
+    const app = initFirebase();
+    const auth = getAuth(app);
 
-    const addToLibrary = () => {
-        
+
+    useEffect(() => {
+        async function getBook() {
+            try {
+                setLoading(true);
+                const { id } = await params;
+                const res = await fetch(`https://us-central1-summaristt.cloudfunctions.net/getBook?id=${id}`);
+                const book = await res.json();
+                setBook(book);
+            } catch (error) {
+                console.error("failed to fetch book data:", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        getBook();
+    }, [params])
+
+    const handleLibraryClick = async (selectedBook: any) => {
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+            alert("Please log in to save books to your library.");
+            return;
+        }
+        if (!selectedBook) return;
+        const bookId = selectedBook.id
+        try {
+            const bookRef = doc(db, "users", currentUser.uid, "library", bookId);
+            const docSnap = await getDoc(bookRef);
+            if (docSnap.exists()) {
+                await deleteDoc(bookRef);
+                console.log("Book successfully removed from account library database.");
+            } else {
+                await setDoc(bookRef, {
+                    id: bookId,
+                    title: selectedBook.title,
+                    author: selectedBook.author,
+                    imageLink: selectedBook.imageLink,
+                    subTitle: selectedBook.subTitle || "",
+                    savedAt: new Date().toISOString()
+                });
+                console.log("Book successfully saved to account library cloud database.")
+            }
+        } catch (error) {
+            console.error("Error updating library in Firestore:", error)
+        }
+    };
+
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center w-60 h-60 animate-pulse" />
+        )
     }
 
  return (
@@ -68,7 +126,7 @@ export default async function BookPage({ params }: PageProps) {
                                 </Link>
                             </div>
                             <div>
-                                <AddToLibraryButton />
+                                <AddToLibraryButton onAdd={() => handleLibraryClick(book)} />
                                 <h2 className="text-lg font-semibold py-6">What's it about?</h2>
                                 <span className="flex gap-6">
                                     {book.tags.map((tags: string, index: number) => (

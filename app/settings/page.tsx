@@ -14,28 +14,22 @@ import Footer from "../components/Footer";
 export default function Settings() {
 
     const app = initFirebase();
-        const auth = getAuth(app);
-        const email = auth.currentUser?.email;
-        const router = useRouter();
-        const [isPremium, setIsPremium] = useState(false);
-    
-        useEffect(() => {
-            const checkPremium = async () => {
-                const newPremiumStatus = auth.currentUser 
-                    ? await getPremiumStatus(app) 
-                    : false;
-                setIsPremium(newPremiumStatus);
-            };
-            checkPremium();
-        }, [app, auth.currentUser?.uid]);
-    
-        // const manageSubscription = async () => {
-        //     const portalUrl = await getPortalUrl(app);
-        //     router.push(portalUrl);
-        //     console.log("Manage Subscription");
-        // };
+    const auth = getAuth(app);
+    const email = auth.currentUser?.email;
+    const router = useRouter();
+    const [isPremium, setIsPremium] = useState(false);
 
-        const statusPanel = isPremium ? <PremiumPanel /> : "Not subscribed - visit subscription page to access premium material."; 
+    useEffect(() => {
+        const checkPremium = async () => {
+            const newPremiumStatus = auth.currentUser 
+                ? await getPremiumStatus(app) 
+                : false;
+            setIsPremium(newPremiumStatus);
+        };
+        checkPremium();
+    }, [app, auth.currentUser?.uid]);
+
+    const statusPanel = isPremium ? <PremiumPanel /> : "Not subscribed - visit subscription page to access premium material."; 
 
     return (
         <div className="flex flex-col min-h-screen w-full">
