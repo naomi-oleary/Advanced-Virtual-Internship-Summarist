@@ -6,6 +6,7 @@ import BookCard from '../components/UI/BookCard';
 import { initFirebase, db } from "../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import SideMenu from '../components/client-side/SideMenu';
 
 export default function LibraryPage() {
 
@@ -13,6 +14,9 @@ export default function LibraryPage() {
         const [libraryBooks, setLibraryBooks] = useState<any[]>([]);
         const app = initFirebase();
         const auth = getAuth(app);
+        const [isMenuOpen, setIsMenuOpen] = useState(false);
+        const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+        const closeMenu = () => setIsMenuOpen(false);
 
        useEffect(() => {
         const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
@@ -40,8 +44,9 @@ export default function LibraryPage() {
 
     return (
         <div className="flex flex-col min-h-screen w-full">
-           <NavBar />
-           <div className="flex-row md:absolute md:right-0 md:w-3/4">
+            <NavBar onToggleMenu={toggleMenu} />
+            <SideMenu isMenuOpen={isMenuOpen} onCloseMenu={closeMenu} />
+           <div className="flex-row md:right-0 md:ml-62">
                 <div className="flex flex-col w-full md:mt-20">
                     <div className="text-blue-950 p-8">
                         <h1 className="text-xl font-bold py-4">My Library</h1>
@@ -60,7 +65,6 @@ export default function LibraryPage() {
                         </div>
                     </div>
                 </div>
-                <Footer />
             </div>
         </div>
     )

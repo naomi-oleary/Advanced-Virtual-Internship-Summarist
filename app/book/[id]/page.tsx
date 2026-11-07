@@ -4,7 +4,7 @@ interface PageProps {
     params: Promise<{ id: string }>;
 }
 
-import NavBar from '../../components/client-side/NavBar.jsx';
+import NavBar from '../../components/client-side/NavBar.tsx';
 import { useState, useEffect } from 'react';
 import { CiClock2 } from "react-icons/ci";
 import { FaRegStar } from "react-icons/fa6";
@@ -141,7 +141,6 @@ export default function BookPage({ params }: PageProps) {
                         </div>
                     </div>
                 </div>
-            <Footer />
             </div>
         </div>
  )

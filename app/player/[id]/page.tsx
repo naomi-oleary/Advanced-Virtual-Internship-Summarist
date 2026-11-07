@@ -27,7 +27,6 @@ export default async function PlayerPage({ params }: PageProps ) {
                         <AudioPlayer book={book} />
                     </div>
                 </div>
-                <Footer />
             </div>
         </div>
     )

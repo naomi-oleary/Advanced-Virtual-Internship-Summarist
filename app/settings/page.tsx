@@ -45,7 +45,6 @@ export default function Settings() {
                         <h2 className="text-lg font-bold py-4">Email</h2>
                         <div>{email}</div>
                     </div>
-                    <Footer />
                 </div>
             </div>
         </div>

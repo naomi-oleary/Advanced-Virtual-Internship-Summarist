@@ -28,7 +28,7 @@ export default function HomePage() {
                 </div>
             </nav>
             <section id="landing">
-                <div className="container">
+                <div className="container m-auto">
                 <div className="row">
                     <div className="landing__wrapper">
                     <div className="landing__content">
@@ -55,7 +55,7 @@ export default function HomePage() {
                 </div>
             </section>
             <section id="features">
-                <div className="container">
+                <div className="container m-auto">
                 <div className="row">
                     <div className="section__title">Understand books in few minutes</div>
                     <div className="features__wrapper">
@@ -163,7 +163,7 @@ export default function HomePage() {
             </section>
             <section id="reviews">
                 <div className="row">
-                <div className="container">
+                <div className="container m-auto">
                     <div className="section__title">What our members say</div>
                     <div className="reviews__wrapper">
                     <div className="review">
@@ -228,7 +228,7 @@ export default function HomePage() {
                 </div>
             </section>
             <section id="numbers">
-                <div className="container">
+                <div className="container m-auto">
                 <div className="row">
                     <div className="section__title">Start growing with Summarist now</div>
                     <div className="numbers__wrapper">

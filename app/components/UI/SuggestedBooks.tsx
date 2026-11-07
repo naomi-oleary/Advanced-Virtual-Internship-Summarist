@@ -1,4 +1,5 @@
 import BookCard from './BookCard';
+import { useState, useEffect } from 'react';
 
 interface Book {
     id: string;
@@ -29,8 +30,15 @@ async function getSuggestedBooks(): Promise<Book[]> {
     return res.json() as Promise<Book[]>
 }
 
-export default async function SuggestedBooks() {
-    const suggestedBooks = await getSuggestedBooks();
+export default function SuggestedBooks() {
+        const [suggestedBooks, setSuggestedBooks] = useState<Book[] | null>(null);
+        const [error, setError] = useState<string | null>(null);
+    
+        useEffect(() => {
+            getSuggestedBooks()
+                .then((data) => setSuggestedBooks(data))
+                .catch((err) => setError(err.message));
+        }, [])
 
     return (
         <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth whitespace-nowrap">

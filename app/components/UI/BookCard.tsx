@@ -54,7 +54,7 @@ export default function BookCard ({ book }: BookCardProps) {
     const href = !isReady
         ? "#"
         : book.subscriptionRequired && (!user || user && !isPremium)
-            ? "/subscription-plan"
+            ? "/settings"
             : `/book/${book.id}`
     ;
 
@@ -65,12 +65,19 @@ export default function BookCard ({ book }: BookCardProps) {
         return null;
     }
 
+    const userCheckOnBookClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (!loading && !user) {
+            e.preventDefault();
+            alert('Please log in or create an account to access this book page.')
+        }
+    }
+
     return (
         <div 
             key={book.id} 
-            className="lg:min-w-1/5 md:min-w-1/4 sm:min-w-1/3 xs:min-w-1/2 mx-2 snap-center p-4 hover:bg-olive-100 hover:rounded-sm transition "
+            className="xl:min-w-1/5 lg:min-w-1/4 md:min-w-1/3 sm:min-w-1/2 min-w-full mx-2 snap-center sm:p-4 hover:bg-olive-100 hover:rounded-sm transition "
         >
-            <Link href={href}>
+            <Link href={href} onClick={userCheckOnBookClick}>
                 <div className="flex justify-end mr-2">
                     {needPremiumBookPill(book)}
                 </div>

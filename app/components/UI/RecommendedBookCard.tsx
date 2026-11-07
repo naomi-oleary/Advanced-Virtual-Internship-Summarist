@@ -19,8 +19,9 @@ interface Book {
 }
 
 import BookCard from './BookCard';
+import { useState, useEffect } from 'react';
 
-async function getData(): Promise<Book[]> {
+async function getRecommendedBooks(): Promise<Book[]> {
     const res = await fetch('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended');
     if (!res.ok) {
         throw new Error('Failed to fetch Book');
@@ -29,9 +30,16 @@ async function getData(): Promise<Book[]> {
     return res.json() as Promise<Book[]>
 }
 
-export default async function RecommendedBooks() {
+export default function RecommendedBooks() {
 
-    const recommendedBooks = await getData();
+    const [recommendedBooks, setRecommendedBooks] = useState<Book[] | null>(null);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        getRecommendedBooks()
+            .then((data) => setRecommendedBooks(data))
+            .catch((err) => setError(err.message));
+    }, [])
 
     return (
         <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth whitespace-nowrap">

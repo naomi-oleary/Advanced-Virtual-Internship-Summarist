@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaSearch } from "react-icons/fa";
 
-export default function BookSearch() {
+export default function BookSearch({ className= ""}) {
     const [searchId, setSearchId] = useState('');
     const router = useRouter();
     const [loading, setLoading] = useState(false);

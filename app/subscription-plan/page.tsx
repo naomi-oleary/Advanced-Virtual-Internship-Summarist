@@ -15,7 +15,7 @@ import { initFirebase } from "../firebase";
 import { getAuth } from 'firebase/auth';
 import { getPremiumStatus } from "../../account/getPremiumStatus";
 import AuthenticationModal from '../components/client-side/AuthenticationModal';
-import Footer from '../components/Footer';
+import SideMenu from '../components/client-side/SideMenu';
 
 
 export default function SubscriptionPage({ className= "" }) {
@@ -29,6 +29,10 @@ export default function SubscriptionPage({ className= "" }) {
     const { user, loading } = useAuth()
     const [isPremium, setIsPremium] = useState(false);
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+    const closeMenu = () => setIsMenuOpen(false);
 
     const upgradeToPremium = async () => {
         const priceId = "price_1UUsCuGw9XYjKYVCwC0ANqGN";
@@ -80,14 +84,15 @@ export default function SubscriptionPage({ className= "" }) {
 
     return (
         <div className="flex flex-col min-h-screen w-full">
-           <NavBar />
-           <div className="flex-row md:absolute md:right-0 md:w-3/4">
+           <NavBar onToggleMenu={toggleMenu} />
+           <SideMenu isMenuOpen={isMenuOpen} onCloseMenu={closeMenu} />
+           <div className="flex flex-row right-0 md:ml-62">
                 <div className="flex flex-col w-full md:mt-19">
                     <div className="flex flex-col items-center text-white bg-blue-950 text-center">
                         <h1 className="text-2xl font-semibold mt-6 text-center">Get unlimited access an amazing digital library</h1>
                         <p className="py-4">Turn ordinary moments into life-changing learning opportunities</p>
                         <Image 
-                            src={Pricing} 
+                            src={Pricing}
                             alt="pricing image"
                             className="max-w-1/2 rounded-t-full"
                         />
@@ -155,7 +160,6 @@ export default function SubscriptionPage({ className= "" }) {
                         )}
                     </div>
                     <FAQDropdown />
-                <Footer />
            </div>
         </div>
         </div>

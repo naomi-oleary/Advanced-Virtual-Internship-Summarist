@@ -19,6 +19,7 @@ interface Book {
 }
 
 import BookCard from './BookCard';
+import { useState, useEffect } from 'react';
 
 async function getSelectedBook(): Promise<Book[]> {
         const res = await fetch('https://us-central1-summaristt.cloudfunctions.net/getBooks?status=selected');
@@ -28,9 +29,17 @@ async function getSelectedBook(): Promise<Book[]> {
         return res.json() as Promise<Book[]>
     }
 
-export default async function SelectedBookCard() {
+export default function SelectedBookCard() {
+    const [selectedBook, setSelectedBook] = useState<Book[] | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
-    const selectedBook = await getSelectedBook();
+    useEffect(() => {
+        getSelectedBook()
+            .then((data) => setSelectedBook(data))
+            .catch((err) => setError(err.message));
+    }, [])
+
+    if (error) return <div>Error loading books.</div>
 
     return (
         <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth whitespace-nowrap">
