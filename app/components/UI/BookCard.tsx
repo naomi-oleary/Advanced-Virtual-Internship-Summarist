@@ -86,8 +86,8 @@ export default function BookCard ({ book }: BookCardProps) {
                     <h2 className="font-bold">{book.title}</h2>
                     <p className="font-light text-sm">{book.author}</p>
                     <p className="text-sm">{book.subTitle}</p>
-                    <div className="flex items-center">
-                        <CiClock2 />
+                    <div className="flex items-center gap-2">
+                        {/* <CiClock2 /> */}
                         <p></p>
                         <FaRegStar />
                         <p className="text-sm font-light">{book.averageRating}</p>

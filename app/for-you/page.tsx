@@ -23,7 +23,7 @@ export default function ForYouPage() {
                 <div className="flex flex-col w-full mt-20">
                     <section id="SELECTED" className="px-8 py-4 w-full">
                             <h1 className="py-4 font-bold text-2xl text-black">Selected just for you</h1>
-                            <div className="flex justify-center w-full">
+                            <div className="flex w-full">
                                 <SelectedBookCard />
                             </div>
 
