@@ -3,6 +3,7 @@
 interface SideMenuProps {
     isMenuOpen: boolean;
     onCloseMenu: () => void;
+    hamburgerRef: React.RefObject<HTMLDivElement | null>;
 }
 
 import Link from 'next/link';
@@ -20,17 +21,19 @@ import { useRouter } from 'next/navigation';
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 
-export default function SideMenu({ isMenuOpen, onCloseMenu }: SideMenuProps) {
+export default function SideMenu({ isMenuOpen, onCloseMenu, hamburgerRef }: SideMenuProps) {
     const { user, loading } = useAuth();
     const router = useRouter();
     const sideMenuRef = useRef<HTMLDivElement>(null);
-    const menuElement = sideMenuRef.current;
 
     const handleClickOutside = (event: MouseEvent ) => {
+        const menuElement = sideMenuRef.current
+        const hamburgerElement = hamburgerRef.current;
         if (
             menuElement &&
             event.target instanceof Node &&
-            !menuElement.contains(event.target)
+            !menuElement.contains(event.target) &&
+            (!hamburgerElement || !hamburgerElement.contains(event.target))
         ) {
             onCloseMenu();
         }

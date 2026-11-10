@@ -1,5 +1,5 @@
 'use client' 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import NavBar from "../components/client-side/NavBar";
 import Footer from "../components/Footer";
 import BookCard from '../components/UI/BookCard';
@@ -17,6 +17,7 @@ export default function LibraryPage() {
         const [isMenuOpen, setIsMenuOpen] = useState(false);
         const toggleMenu = () => setIsMenuOpen((prev) => !prev);
         const closeMenu = () => setIsMenuOpen(false);
+        const hamburgerRef = useRef<HTMLDivElement>(null);
 
        useEffect(() => {
         const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
@@ -44,8 +45,8 @@ export default function LibraryPage() {
 
     return (
         <div className="flex flex-col min-h-screen w-full">
-            <NavBar onToggleMenu={toggleMenu} />
-            <SideMenu isMenuOpen={isMenuOpen} onCloseMenu={closeMenu} />
+            <NavBar onToggleMenu={toggleMenu} hamburgerRef={hamburgerRef}/>
+            <SideMenu isMenuOpen={isMenuOpen} onCloseMenu={closeMenu} hamburgerRef={hamburgerRef}/>
            <div className="flex-row md:right-0 md:ml-62">
                 <div className="flex flex-col w-full md:mt-20">
                     <div className="text-blue-950 p-8">

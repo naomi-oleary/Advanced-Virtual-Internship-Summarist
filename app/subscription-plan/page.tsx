@@ -5,7 +5,7 @@ import Pricing from '../Images/pricing-top.png';
 import { FaRegFileLines, FaHandshakeSimple } from "react-icons/fa6";
 import { FaRegCircle, FaRegDotCircle } from "react-icons/fa";
 import { PiPlantDuotone } from "react-icons/pi";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../account/AuthContext';
 import FAQDropdown from '../components/client-side/FAQDropdown';
@@ -22,7 +22,6 @@ export default function SubscriptionPage({ className= "" }) {
 
     const [isToggled1, setIsToggled1] = useState(false);
     const [isToggled2, setIsToggled2] = useState(false);
-
     const router = useRouter();
     const app = initFirebase();
     const auth = getAuth(app);
@@ -30,9 +29,9 @@ export default function SubscriptionPage({ className= "" }) {
     const [isPremium, setIsPremium] = useState(false);
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
     const toggleMenu = () => setIsMenuOpen((prev) => !prev);
     const closeMenu = () => setIsMenuOpen(false);
+    const hamburgerRef = useRef<HTMLDivElement>(null);
 
     const upgradeToPremium = async () => {
         const priceId = "price_1UUsCuGw9XYjKYVCwC0ANqGN";
@@ -84,8 +83,8 @@ export default function SubscriptionPage({ className= "" }) {
 
     return (
         <div className="flex flex-col min-h-screen w-full">
-           <NavBar onToggleMenu={toggleMenu} />
-           <SideMenu isMenuOpen={isMenuOpen} onCloseMenu={closeMenu} />
+           <NavBar onToggleMenu={toggleMenu} hamburgerRef={hamburgerRef} />
+           <SideMenu isMenuOpen={isMenuOpen} onCloseMenu={closeMenu} hamburgerRef={hamburgerRef} />
            <div className="flex flex-row right-0 md:ml-62">
                 <div className="flex flex-col w-full md:mt-19">
                     <div className="flex flex-col items-center text-white bg-blue-950 text-center">

@@ -4,8 +4,8 @@ interface PageProps {
     params: Promise<{ id: string }>;
 }
 
-import NavBar from '../../components/client-side/NavBar.tsx';
-import { useState, useEffect } from 'react';
+import NavBar from '../../components/client-side/NavBar';
+import { useState, useEffect, useRef } from 'react';
 import { CiClock2 } from "react-icons/ci";
 import { FaRegStar } from "react-icons/fa6";
 import { SlMicrophone } from "react-icons/sl";
@@ -17,6 +17,7 @@ import Footer from '@/app/components/Footer.jsx';
 import { initFirebase, db } from "../../firebase";
 import { getAuth } from "firebase/auth";
 import { doc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
+import SideMenu from '@/app/components/client-side/SideMenu';
 
 
 export default function BookPage({ params }: PageProps) {
@@ -25,6 +26,10 @@ export default function BookPage({ params }: PageProps) {
     const [loading, setLoading] = useState<boolean>(true);
     const app = initFirebase();
     const auth = getAuth(app);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+    const closeMenu = () => setIsMenuOpen(false);
+    const hamburgerRef = useRef<HTMLDivElement>(null);
 
 
     useEffect(() => {
@@ -83,8 +88,9 @@ export default function BookPage({ params }: PageProps) {
 
  return (
         <div className="flex flex-col min-h-screen w-full">
-           <NavBar />
-           <div className="flex-row md:absolute md:right-0 md:w-3/4">
+            <NavBar onToggleMenu={toggleMenu} hamburgerRef={hamburgerRef} />
+            <SideMenu isMenuOpen={isMenuOpen} onCloseMenu={closeMenu} hamburgerRef={hamburgerRef} />
+           <div className="flex-row md:right-0 md:ml-62">
                 <div className="flex flex-col w-full">
                     <div className="flex-1 items-center text-blue-950">
                         <img className="p-8 max-h-80 flex m-auto mt-20" src={book.imageLink} />

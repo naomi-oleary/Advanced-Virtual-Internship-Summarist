@@ -1,22 +1,41 @@
+'use client';
+
 interface PageProps {
     params: Promise<{ id: string }>;
 }
 
 import AudioPlayer from "@/app/components/client-side/AudioPlayer";
 import NavBar from "../../components/client-side/NavBar";
-import Footer from "@/app/components/Footer";
+import { useState, useEffect, useRef } from 'react';
+import SideMenu from "@/app/components/client-side/SideMenu";
 
-export default async function PlayerPage({ params }: PageProps ) {
-    const { id } = await params;
-    const res = await fetch(`https://us-central1-summaristt.cloudfunctions.net/getBook?id=${id}`);
-    const book = await res.json();
+export default function PlayerPage({ params }: PageProps ) {
+    const [book, setBook] = useState<any>(null);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+    const closeMenu = () => setIsMenuOpen(false);
+    const hamburgerRef = useRef<HTMLDivElement>(null);
 
-    console.log(book)
+    useEffect(() => {
+        async function loadData() {
+            const resolvedParams = await params;
+            const id = resolvedParams.id;
+            const res = await fetch(`https://us-central1-summaristt.cloudfunctions.net/getBook?id=${id}`);
+            const data = await res.json();
+            setBook(data);
+        }
+        loadData();
+    }, [params]);
+
+    if (!book) {
+        return <div className="flex min-h-screen items-center justify-center" >Loading...</div>
+    }
 
     return (
         <div className="flex flex-col min-h-screen w-full">
-           <NavBar />
-           <div className="flex-row md:absolute md:right-0 md:w-3/4">
+           <NavBar onToggleMenu={toggleMenu} hamburgerRef={hamburgerRef}/>
+           <SideMenu isMenuOpen={isMenuOpen} onCloseMenu={closeMenu} hamburgerRef={hamburgerRef}/>
+           <div className="flex-row md:right-0 md:ml-62">
                 <div className="flex flex-col w-full mt-20">
                     <div className="px-4">
                         <h1 className="font-bold text-xl py-6">{book.title}</h1>

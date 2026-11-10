@@ -5,10 +5,15 @@ import { useRef } from 'react';
 import { useAuth } from "../../../account/AuthContext";
 import BookSearch from "./BookSearch";
 
-export default function NavBar({ onToggleMenu }: { onToggleMenu: () => void}) {
+export default function NavBar({ 
+    onToggleMenu, 
+    hamburgerRef }
+    : { 
+        onToggleMenu: () => void;
+        hamburgerRef: React.RefObject<HTMLDivElement | null>;
+    }) {
     
     const { user, loading } = useAuth();
-    const hamburgerRef = useRef(null);
 
     if (loading) return <p>Loading...</p>
 
@@ -18,7 +23,9 @@ export default function NavBar({ onToggleMenu }: { onToggleMenu: () => void}) {
             <div 
                 className="flex mx-4 place-items-center text-2xl"
                 ref={hamburgerRef}
-                onClick={onToggleMenu} 
+                onClick={(e) => {
+                    onToggleMenu();
+                }}
             >
                 <GiHamburgerMenu className="md:hidden" />
             </div>
